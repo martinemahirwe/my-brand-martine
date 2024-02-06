@@ -1,0 +1,22 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fffbf3;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.scale-line {
+  border-top: 1px dotted #e22323;
+  width: 200px;
+  position: absolute;
+}
+.profile {
+}
+.profile img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}

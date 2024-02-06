@@ -1,0 +1,311 @@
+main {
+  height: 270vh;
+}
+.person img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+.read-container {
+  width: 70%;
+}
+.read-container span {
+  font-size: 16px;
+  font-weight: 500;
+}
+.read {
+  width: 110%;
+}
+.send {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+}
+textarea {
+  margin-top: 30px;
+  width: 50%;
+}
+.message {
+  width: 50%;
+}
+
+.liked,
+.comments,
+.person11,
+.reacts {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.liked {
+  padding: 5px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border: 1px solid #e89058;
+  border-radius: 8px;
+  gap: 25px;
+  font-weight: 100;
+}
+.numbers {
+  font-size: 19px;
+  font-weight: 500;
+}
+.comments {
+  height: 12vh;
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.liked span,
+.reacts span {
+  margin-left: -20px;
+}
+.reacts {
+  gap: 25px;
+}
+.message {
+  margin-top: -10px;
+}
+.person11,
+.person {
+  height: 22vh;
+  gap: 20px;
+}
+.person12 {
+  margin-top: 30px;
+}
+.name {
+  font-size: 16px;
+}
+big {
+  color: #666;
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+@media only screen and (min-width: 300px) and (max-width: 480px) {
+  main {
+    height: auto;
+    width: 100%;
+  }
+  .read {
+    width: 100%;
+  }
+  .content img {
+    width: 100%;
+    height: 50vh;
+  }
+  .read-container {
+    margin-top: 120px;
+    width: 90%;
+    height: auto;
+    display: grid;
+    place-content: center;
+  }
+  textarea {
+    width: 90%;
+    margin-top: 10px;
+  }
+  .message {
+    width: 90%;
+  }
+  .send {
+    width: 90%;
+    margin-top: 10px;
+  }
+  .comments {
+    margin-top: 25px;
+    margin-bottom: -10px;
+    width: 90%;
+  }
+  .liked {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .numbers {
+    font-size: 16px;
+  }
+  .person11 {
+    margin-bottom: 65px;
+    gap: 10px;
+  }
+  .reacts {
+    margin-top: -10px;
+  }
+  big {
+    font-size: 16px;
+  }
+  nav.active {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #e89058;
+    position: fixed;
+    margin-top: 390px;
+    padding-bottom: 20px;
+    gap: 0px;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  nav.active {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #e89058;
+    position: fixed;
+    margin-top: 390px;
+    padding-bottom: 20px;
+    gap: 0px;
+  }
+  .read {
+    width: 100%;
+  }
+  main {
+    height: auto;
+    width: 100%;
+  }
+  .content img {
+    width: 100%;
+    height: 55vh;
+  }
+  .read-container {
+    margin-top: 130px;
+    padding-bottom: 50px;
+    width: 90%;
+    height: auto;
+    display: grid;
+    place-content: center;
+  }
+  textarea {
+    width: 90%;
+    margin-top: 10px;
+  }
+  .message {
+    width: 90%;
+  }
+  .send {
+    width: 90%;
+  }
+  .comments {
+    margin-top: 25px;
+    margin-bottom: -10px;
+    width: 90%;
+  }
+  .numbers {
+    font-size: 17px;
+  }
+
+  .reacts {
+    margin-top: -10px;
+  }
+  big {
+    font-size: 16px;
+  }
+  .cont {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 759px) and (max-width: 1024px) {
+  .read {
+    width: 100%;
+  }
+  main {
+    height: auto;
+    width: 100%;
+  }
+  .content img {
+    width: 100%;
+    height: 65vh;
+  }
+  .read-container {
+    margin-top: 150px;
+    padding-bottom: 50px;
+    width: 90%;
+    height: auto;
+    display: grid;
+    place-content: center;
+  }
+  textarea {
+    width: 70%;
+    margin-top: 10px;
+  }
+  .message {
+    width: 80%;
+  }
+  .send {
+    width: 70%;
+  }
+  .comments {
+    margin-top: 25px;
+    margin-bottom: -10px;
+    width: 70%;
+  }
+  .numbers {
+    font-size: 18px;
+  }
+  .reacts {
+    margin-top: -10px;
+  }
+  big {
+    font-size: 18px;
+  }
+  .cont {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 1025px) and (max-width: 1280px) {
+  .read {
+    width: 100%;
+  }
+  main {
+    height: auto;
+    width: 100%;
+  }
+  .content img {
+    width: 100%;
+    height: 65vh;
+  }
+  .read-container {
+    margin-top: 150px;
+    padding-bottom: 50px;
+    width: 90%;
+    height: auto;
+    display: grid;
+    place-content: center;
+  }
+  textarea {
+    width: 70%;
+    margin-top: 10px;
+  }
+  .message {
+    width: 80%;
+  }
+  .send {
+    width: 70%;
+  }
+  .comments {
+    margin-top: 25px;
+    margin-bottom: -10px;
+    width: 70%;
+  }
+  .numbers {
+    font-size: 18px;
+  }
+
+  .reacts {
+    margin-top: -10px;
+  }
+  big {
+    font-size: 18px;
+  }
+  .cont {
+    width: 90%;
+  }
+}

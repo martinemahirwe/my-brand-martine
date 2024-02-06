@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/assets/styles/admin.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <title>Admin Panel</title>
+  </head>
+  <body>
+    <div class="side-bar">
+      <div class="content">
+        <a href="/index.html"> <h2>Mchance</h2></a>
+        <div class="icon"></div>
+        <div class="icon">
+          <p>Manage Articles</p>
+        </div>
+        <div class="icon">
+          <p>Add Articles</p>
+        </div>
+        <div class="icon">
+          <p>conversation</p>
+        </div>
+      </div>
+    </div>
+    <main>
+      <div class="header">
+        <span><box-icon name="bell" color="#ffa800"></box-icon></span>
+        <div class="mypic">
+          <p>Martine Mahirwe</p>
+          <div class="profile">
+            <img
+              src="/assets/images/myprofile.png"
+              alt="small profile picture"
+            />
+          </div>
+        </div>
+        <span><box-icon type="solid" name="down-arrow"></box-icon></span>
+      </div>
+      <div class="overview">
+        <label>Overview </label>
+        <select name="" id="" value="Last 7 days">
+          <option value="Last 7 days">
+            <p>last 7 days</p>
+          </option>
+          <span><input type="radio" /></span>
+          <option value="Last 1 week">
+            <p>last 1 week</p>
+          </option>
+          <span><input type="radio" /></span>
+          <option value="last 2 weeks">
+            <p>last 2 weeks</p>
+          </option>
+        </select>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <p>Total Articles</p>
+          <div><p>3</p></div>
+        </div>
+        <div class="card">
+          <p>Edited Articles</p>
+          <div><p>3</p></div>
+        </div>
+        <div class="card">
+          <p>Comments</p>
+          <div><p>3</p></div>
+        </div>
+        <div class="card">
+          <p>Likes</p>
+          <div><p>3</p></div>
+        </div>
+      </div>
+      <div class="chart-container">
+        <div class="scales">
+          <p>100</p>
+          <p>80</p>
+          <p>60</p>
+          <p>40</p>
+          <p>20</p>
+          <p>0</p>
+        </div>
+        <div class="scale-line"></div>
+        <div class="scale-line"></div>
+        <div class="scale-line"></div>
+        <div class="scale-line"></div>
+        <div class="scale-line"></div>
+      </div>
+    </main>
+  </body>
+</html>
