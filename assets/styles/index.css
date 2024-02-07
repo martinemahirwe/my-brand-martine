@@ -9,20 +9,18 @@ html {
 .menu {
   display: none;
 }
-button,
-a button {
+button {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--highlight-color);
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 500;
   border: none;
   border-radius: 8px;
   height: 5vh;
   padding-left: 20px;
   padding-right: 20px;
-  font-weight: 100;
   transition: background-color 0.3s ease-in-out;
 }
 button:hover {
@@ -47,12 +45,12 @@ header {
   width: 100%;
   background-color: var(--main-bg-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 15vh;
-  position: fixed;
-  z-index: 100;
 }
 .logo h2 a {
   color: #ffa800;
@@ -63,7 +61,7 @@ header {
   font-weight: 400;
 }
 .logo h4:hover {
-  font-weight: 700;
+  font-weight: 300;
 }
 .logo {
   display: flex;
@@ -82,9 +80,9 @@ nav {
   justify-content: flex-end;
   gap: 50px;
   width: 40%;
-  font-size: 18px;
 }
 nav a {
+  font-size: 17px;
   font-weight: 500;
   transition: color 0.3s ease-in-out;
 }
@@ -115,22 +113,23 @@ p {
 }
 .hero p {
   margin-top: -15px;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 .hero,
 .about-content {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  height: auto;
   width: 100%;
 }
+
 .hero .left,
 .about-content .left {
   display: flex;
   flex-direction: column;
   align-items: self-start;
-  height: 25vh;
+  height: auto;
   width: 35%;
 }
 
@@ -138,35 +137,42 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 400px;
-  height: 400px;
+  width: 260px;
+  height: 260px;
   border-radius: 50%;
   background-color: #fff;
 }
 .about-content .right {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: flex-end;
-  width: 35%;
-}
-.hero .right {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
   width: 35%;
 }
 
 .hero .right .background {
-  width: 250px;
-  height: 250px;
+  width: 220px;
+  height: 220px;
   background-color: #feecca;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.hero .left {
+  width: 50%;
+}
+.hero {
+  margin-top: 30px;
+}
+.hero .right {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  width: 20%;
+}
+
 .hero .profile {
-  height: 25vh;
+  height: 22vh;
   object-fit: cover;
 }
 h2 {
@@ -178,7 +184,7 @@ h2 {
   align-items: start;
   justify-content: flex-end;
   width: 100%;
-  height: 65vh;
+  height: auto;
   border: 1px solid #e89058;
   border-left: none;
   border-radius: 8px;
@@ -186,14 +192,13 @@ h2 {
   box-shadow: 2px 2px 2px #fac7a7;
 }
 .about-content {
-  margin-top: -25px;
-  height: 75vh;
+  height: auto;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 10px;
 }
 .about-content .left {
-  height: 65vh;
+  height: auto;
   padding-left: 20px;
   border: 1px solid #e89058;
   border-radius: 8px;
@@ -209,13 +214,13 @@ h2 {
 
 .skills-content {
   padding-top: 15px;
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: stretch;
   margin: 0 auto;
-  width: 72%;
-  height: 68vh;
+  width: 70%;
+  height: auto;
+  gap: 10px;
 }
 
 .skill-card {
@@ -226,15 +231,15 @@ h2 {
   border: 1px solid #e89058;
   transition: transform 0.3s ease-in-out;
   padding: 15px;
-  height: 63vh;
-  width: 18%;
+  height: auto;
+  width: 100%;
 }
 .skill-card:hover,
 .about-content img:hover {
   transform: scale(1.05);
 }
 .skill-card .title {
-  font-size: 19px;
+  font-size: 17px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -257,14 +262,14 @@ h5 {
 }
 h5,
 .cont-form label {
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 400;
 }
 .address1 {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  font-weight: 410;
+  font-weight: 400;
   gap: 3px;
 }
 .address span {
@@ -279,7 +284,7 @@ h5:hover,
   display: flex;
   justify-content: center;
   align-items: baseline;
-  height: 75vh;
+  height: auto;
   width: 100%;
 }
 form {
@@ -363,7 +368,13 @@ footer p {
 }
 
 @media only screen and (min-width: 300px) and (max-width: 480px) {
-  nav.active {
+  main {
+    width: 100%;
+  }
+  nav {
+    display: none;
+  }
+  .active {
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -371,9 +382,9 @@ footer p {
     justify-content: center;
     background-color: #e89058;
     position: fixed;
-    margin-top: 390px;
-    padding-bottom: 20px;
-    gap: 0px;
+    padding: 10px;
+    margin-top: 300px;
+    gap: 20px;
   }
   button {
     padding: 16px;
@@ -423,11 +434,11 @@ footer p {
     height: auto;
   }
   .hero .right {
-    height: 70vh;
-    margin-bottom: -100px;
+    height: auto;
   }
   .hero {
-    margin-bottom: 50px;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
   .hero,
   .about-content {
@@ -444,22 +455,25 @@ footer p {
   }
 
   .hero .right .back {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
   }
   .hero .right,
   .about-content .right {
     width: 90%;
   }
   .hero .right .background {
-    width: 180px;
-    height: 180px;
+    width: 170px;
+    height: 170px;
+  }
+  .hero .right {
+    justify-content: center;
   }
   .hero .profile {
-    height: 23vh;
-    object-fit: cover;
+    max-width: 100%;
+    height: auto;
+    width: 120px;
   }
-
   .about-content {
     display: flex;
     flex-direction: column-reverse;
@@ -478,17 +492,18 @@ footer p {
   }
   .skills-content {
     display: grid;
+    grid-template-columns: 1fr;
     place-items: center;
-    gap: 15px;
+    gap: 10px;
     margin-top: -15px;
     height: auto;
-    width: 100%;
+    width: 90%;
   }
 
   .skill-card {
     padding: 10px;
     height: auto;
-    width: 90%;
+    width: 100%;
   }
   #skills .title {
     font-size: 17px;
@@ -504,6 +519,9 @@ footer p {
   .address {
     width: 90%;
   }
+  .address1 {
+    font-size: 16;
+  }
   .cont-form {
     width: 90%;
   }
@@ -517,12 +535,18 @@ footer p {
   }
   h5,
   .cont-form label {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  nav.active {
+  main {
+    width: 100%;
+  }
+  nav {
+    display: none;
+  }
+  .active {
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -530,9 +554,9 @@ footer p {
     justify-content: center;
     background-color: #e89058;
     position: fixed;
-    margin-top: 390px;
-    padding-bottom: 20px;
-    gap: 0px;
+    padding: 10px;
+    margin-top: 300px;
+    gap: 20px;
   }
   button {
     padding: 18px;
@@ -575,11 +599,7 @@ footer p {
     height: auto;
   }
   .hero .right {
-    height: 70vh;
-    margin-bottom: -100px;
-  }
-  .hero {
-    margin-bottom: 30px;
+    height: auto;
   }
   .hero,
   .about-content {
@@ -594,45 +614,60 @@ footer p {
   .about-content .left {
     width: 90%;
   }
+  .hero {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  .hero .right {
+    justify-content: center;
+  }
 
   .hero .right .back {
-    width: 300px;
-    height: 300px;
+    width: 220px;
+    height: 220px;
   }
   .hero .right,
   .about-content .right {
     width: 90%;
   }
   .hero .right .background {
-    width: 200px;
-    height: 200px;
+    width: 170px;
+    height: 170px;
+  }
+  .hero .profile {
+    max-width: 100%;
+    height: auto;
+    width: 130px;
   }
   .about-content {
     display: flex;
     flex-direction: column-reverse;
-    margin-top: 10px;
     gap: 15px;
     height: auto;
   }
   #about img {
-    height: 50vh;
+    height: auto;
   }
   .about-content .left {
     height: auto;
   }
   .skills-content {
     display: grid;
+    grid-template-columns: 1fr;
     place-items: center;
     gap: 10px;
     margin-top: -15px;
     height: auto;
-    width: 100%;
+    width: 90%;
   }
-
+  h5,
+  .cont-form label {
+    font-size: 17px;
+  }
   .skill-card {
     padding: 10px;
     height: auto;
-    width: 90%;
+    width: 100%;
   }
   #skills .title {
     font-size: 18px;
@@ -641,9 +676,8 @@ footer p {
     display: grid;
     place-items: center;
     gap: 10px;
-    margin-top: -30px;
     height: auto;
-    width: 100%;
+    width: 90%;
   }
   .address {
     width: 90%;
@@ -661,7 +695,7 @@ footer p {
   h5,
   .cont-form label {
     font-size: 20px;
-    font-weight: 500;
+    font-weight: 400;
   }
 }
 @media only screen and (min-width: 769px) and (max-width: 1024px) {
@@ -702,30 +736,34 @@ footer p {
   .hero .left {
     width: 60%;
   }
+  h5,
+  .cont-form label {
+    font-size: 18px;
+  }
   .hero .right {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 35%;
-    margin-top: 60px;
-  }
-  .hero {
-    margin-bottom: 20px;
-    margin-top: 60px;
+    justify-content: flex-end;
+    width: 30%;
   }
   .hero .right .back {
-    width: 300px;
-    height: 300px;
+    width: 220px;
+    height: 220px;
   }
   .hero .right .background {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
+  }
+  .hero .profile {
+    max-width: 100%;
+    height: auto;
+    width: 138px;
   }
   .about-content {
     display: flex;
     flex-direction: column-reverse;
+    align-items: center;
     gap: 10px;
-    margin-top: 20px;
   }
   .about-content .left,
   .about-content .right {
@@ -736,14 +774,14 @@ footer p {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
-    place-items: center;
+    align-items: stretch;
     margin: 0 auto;
     width: 90%;
     height: auto;
   }
   .skill-card {
     width: 100%;
-    height: 75vh;
+    height: auto;
   }
   .contact-content {
     display: flex;
@@ -795,39 +833,49 @@ footer p {
   .logo {
     width: 30%;
   }
+  .address1 span,
+  .cont-form label {
+    font-size: 15px;
+  }
   .hero,
   .about-content {
     height: auto;
     width: 100%;
   }
   .hero .left {
-    width: 50%;
+    width: 60%;
+  }
+  .hero {
+    margin-top: 30px;
   }
   .hero .right {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 30%;
-    margin-top: 70px;
   }
-  .hero {
-    margin-bottom: 20px;
-    margin-top: 40px;
-  }
+
   .hero .right .back {
-    width: 300px;
-    height: 300px;
+    width: 230px;
+    height: 230px;
   }
   .hero .right .background {
-    width: 200px;
-    height: 200px;
+    width: 190px;
+    height: 190px;
   }
+  .hero .profile {
+    max-width: 100%;
+    height: auto;
+    width: 140px;
+  }
+
   #about img {
-    height: 90vh;
+    height: auto;
   }
   .about-content {
     display: flex;
-    margin-top: 20px;
+    align-items: stretch;
+    height: auto;
   }
   .about-content .left,
   .about-content .right {
@@ -836,9 +884,9 @@ footer p {
   }
   .skills-content {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
-    place-items: center;
+    align-items: stretch;
     margin: 0 auto;
     width: 90%;
     height: auto;

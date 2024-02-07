@@ -4,17 +4,18 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 140vh;
 }
 
 .content img {
-  width: 100%;
-  height: 60vh;
+  width: 70%;
+  height: 80vh;
 }
 .blog-container {
+  margin-top: 30px;
+  margin-bottom: 30px;
   width: 70%;
   display: grid;
-  height: 85vh;
+  height: auto;
 }
 strong {
   font-weight: 500;
@@ -30,7 +31,10 @@ strong:hover {
 }
 
 @media only screen and (min-width: 300px) and (max-width: 480px) {
-  nav.active {
+  nav {
+    display: none;
+  }
+  .active {
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -38,9 +42,9 @@ strong:hover {
     justify-content: center;
     background-color: #e89058;
     position: fixed;
-    margin-top: 390px;
-    padding-bottom: 20px;
-    gap: 0px;
+    padding: 10px;
+    margin-top: 300px;
+    gap: 20px;
   }
   main {
     height: auto;
@@ -51,11 +55,11 @@ strong:hover {
     height: 50vh;
   }
   .blog-container {
-    margin-top: 100px;
-    margin-bottom: 50px;
     width: 90%;
     height: auto;
     display: grid;
+    margin-bottom: 30px;
+    margin-top: 30px;
     place-content: center;
   }
   strong {
@@ -63,7 +67,10 @@ strong:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  nav.active {
+  nav {
+    display: none;
+  }
+  .active {
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -71,25 +78,25 @@ strong:hover {
     justify-content: center;
     background-color: #e89058;
     position: fixed;
-    margin-top: 390px;
-    padding-bottom: 20px;
-    gap: 0px;
+    padding: 10px;
+    margin-top: 300px;
+    gap: 20px;
   }
   main {
     height: auto;
   }
 
   .content img {
-    width: 100%;
+    width: 70%;
     height: 60vh;
   }
   .blog-container {
-    margin-top: 120px;
-    margin-bottom: 50px;
     width: 90%;
     height: auto;
     display: grid;
     place-content: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
   }
   strong {
     font-size: 19px;
@@ -101,16 +108,16 @@ strong:hover {
   }
 
   .content img {
-    width: 100%;
+    width: 70%;
     height: 60vh;
   }
   .blog-container {
-    margin-top: 150px;
-    margin-bottom: 50px;
     width: 90%;
     height: auto;
     display: grid;
     place-content: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
   }
   strong {
     font-size: 20px;
@@ -120,18 +127,13 @@ strong:hover {
   main {
     height: auto;
   }
-
-  .content img {
-    width: 100%;
-    height: 80vh;
-  }
   .blog-container {
-    margin-top: 150px;
-    margin-bottom: 50px;
     width: 90%;
     height: auto;
     display: grid;
     place-content: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
   }
   strong {
     font-size: 20px;
