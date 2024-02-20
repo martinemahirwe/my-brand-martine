@@ -18,16 +18,32 @@ main {
 .read {
   width: 110%;
 }
-.send {
+.logout-btn {
+  display: none;
+}
+
+.send-comment {
   margin-top: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 50%;
 }
-textarea {
+.form-field {
+  display: flex;
+  gap: 10px;
+  width: 50%;
+}
+textarea,
+#emojis {
   margin-top: 30px;
   width: 50%;
+}
+.visible {
+  display: flex;
+}
+#emojis {
+  display: none;
 }
 .message {
   width: 50%;
@@ -55,8 +71,8 @@ textarea {
   font-weight: 500;
 }
 .comments {
-  height: 12vh;
-  width: 30%;
+  height: 15vh;
+  width: 40%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -66,6 +82,9 @@ textarea {
   margin-left: -20px;
 }
 .reacts {
+  display: flex;
+  align-items: center;
+  margin-top: -20px;
   gap: 25px;
 }
 .message {
@@ -86,6 +105,10 @@ big {
   color: #666;
   font-size: 18px;
   margin-left: 10px;
+}
+.logout {
+  background-color: rgb(104, 23, 23);
+  color: white;
 }
 
 @media only screen and (min-width: 300px) and (max-width: 480px) {
@@ -123,16 +146,19 @@ big {
     margin-bottom: 30px;
     margin-top: 30px;
   }
-  textarea {
-    width: 90%;
+  textarea,
+  .form-field {
+    width: 100%;
     margin-top: 10px;
   }
   .message {
     width: 90%;
   }
-  .send {
-    width: 90%;
-    margin-top: 10px;
+
+  .send-comment,
+  #emojis {
+    width: 100%;
+    margin-top: 20px;
   }
   .comments {
     margin-top: 25px;
@@ -147,11 +173,7 @@ big {
     font-size: 16px;
   }
   .person11 {
-    margin-bottom: 65px;
     gap: 10px;
-  }
-  .reacts {
-    margin-top: -10px;
   }
   big {
     font-size: 16px;
@@ -192,28 +214,29 @@ big {
     display: grid;
     place-content: center;
   }
-  textarea {
-    width: 90%;
+  textarea,
+  .form-field {
+    width: 100%;
     margin-top: 10px;
   }
   .message {
     width: 90%;
   }
-  .send {
-    width: 90%;
+  .send-comment,
+  #emojis {
+    width: 100%;
   }
   .comments {
     margin-top: 25px;
     margin-bottom: -10px;
-    width: 90%;
+    width: 80%;
   }
   .numbers {
     font-size: 17px;
   }
-
-  .reacts {
-    margin-top: -10px;
-  }
+  /* .reacts {
+    margin-top: -20px;
+  } */
   big {
     font-size: 16px;
   }
@@ -241,26 +264,25 @@ big {
     display: grid;
     place-content: center;
   }
-  textarea {
+  textarea,
+  .form-field {
     width: 70%;
     margin-top: 10px;
   }
   .message {
     width: 80%;
   }
-  .send {
+  .send-comment,
+  #emojis {
     width: 70%;
   }
   .comments {
     margin-top: 25px;
     margin-bottom: -10px;
-    width: 70%;
+    width: 50%;
   }
   .numbers {
     font-size: 18px;
-  }
-  .reacts {
-    margin-top: -10px;
   }
   big {
     font-size: 18px;
@@ -292,7 +314,8 @@ big {
   .message {
     width: 80%;
   }
-  .send {
+  .send-comment,
+  #emojis {
     width: 70%;
   }
   .comments {
@@ -304,9 +327,6 @@ big {
     font-size: 18px;
   }
 
-  .reacts {
-    margin-top: -10px;
-  }
   big {
     font-size: 18px;
   }

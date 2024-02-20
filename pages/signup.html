@@ -14,7 +14,8 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <script defer src="/assets/src/index.js"></script>
+    <script defer src="/assets/src/sign.js"></script>
+     <script defer src="/assets/src/menu.js"></script>
     <title>LogIn Page</title>
   </head>
   <body>
@@ -34,32 +35,30 @@
     <main>
       <div class="left-side">
         <h2>Sign Up</h2>
-        <form action="" id="form2">
-          <input type="text" placeholder="Full Names" />
-          <input type="text" placeholder="Email" />
-          <input type="date" placeholder="Date of Birth" />
-          <input type="text" list="gender" placeholder="gender" />
-          <datalist id="gender">
-            <option value="Female"></option>
-            <option value="Male"></option>
-          </datalist>
+        <form id="signup" class="form">
+            <div class="form-field">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" autocomplete="off"required>
+                <small></small>
+            </div>
 
-          <div class="eye">
-            <input type="password" placeholder="password" class="paswd"/>
-            <span
-              ><box-icon name="low-vision" color="rgba(68,68,68,0.3)"></box-icon
-            ></span>
-          </div>
-          <div class="eye">
-            <input type="password" placeholder="password" class="paswd"/>
-            <span
-              ><box-icon name="low-vision" color="rgba(68,68,68,0.3)"></box-icon
-            ></span>
-          </div>
+            <div class="form-field">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" autocomplete="off" required>
+                <small></small>
+            </div>
+
+
+            <div class="form-field">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" name="confirm-password" id="confirm-password" autocomplete="off" required>
+                <small></small>
+            </div>
+            <div class="hide msgSignup"></div>
+                <button class="log-btn"type="submit">Sign Up</button>
+          
         </form>
-        <a href="/pages/login.html" class="log">
-          <button class="log-btn">Sign Up</button></a
-          >
+       
         <div class="sign">
         <p clas="sign">
           <span><a href="/pages/login.html">Log In</a></span>if you already have an account</div>

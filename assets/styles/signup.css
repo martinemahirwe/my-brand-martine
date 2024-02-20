@@ -4,12 +4,12 @@ main {
   align-items: stretch;
   justify-content: center;
 }
-.left-side {
-  width: 30%;
+.form-field {
+  width: 100%;
 }
 .log-btn {
   width: 50%;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 .log .sign {
   display: flex;
@@ -23,6 +23,9 @@ main {
   font-weight: 600;
   font-size: 18px;
   margin-right: 5px;
+}
+.hide {
+  display: none;
 }
 
 @media only screen and (min-width: 300px) and (max-width: 480px) {

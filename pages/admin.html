@@ -12,14 +12,18 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <script defer src="/assets/src/admin.js"></script>
+     <script defer src="/assets/src/blog.js"></script>
+     <script defer src="/assets/src/users.js"></script>
+     <script defer src="/assets/src/admin.js"></script>
+    <script defer src="/assets/src/sideMenu.js"></script>
+    <script defer src="/assets/src/modals.js"></script>
     <title>Admin Panel</title>
   </head>
   <body>
     <main>
     <div class="side-bar">
       <div class="content">
-        <div class="h2 home"><a href="/index.html"> Mchance</a></div>
+        <div class="h2 home"><a href="#"> Mchance</a></div>
         <div id=" home"class="icon"><box-icon type='solid' color="#f9f9f9"name='home'></box-icon>
         <p class="p1">Home</p></div>
         <div id="manage-art"class="icon">
@@ -40,7 +44,8 @@
       <div class="header">
           <div class="menu1"><span><box-icon name='menu' color='black' ></box-icon></span></div>
           <div class="div6">
-        <span><box-icon name="bell" color="#DF7822"></box-icon></span>
+        <span class="bell-container"><box-icon name="bell" color="#DF7822" class="bell"></box-icon>
+        <div class="not-count">3</div></span>
           <p class="me">Martine Mahirwe</p>
           <div class="profile">
             <img
@@ -49,15 +54,16 @@
             />
           </div>
           <div class="drop-btn">
-       <box-icon name='caret-down' color='rgba(223,120,34,0.6)' size="md"color="#DF7822"></box-icon>
+       <box-icon name='caret-down' color='rgba(223,120,34,0.6)' size="md" class="drop-down"></box-icon>
               <div class="modal6" id="modal6">
+          <button id="cancel6">Cancel</button>
       <div class="change pic">
       <box-icon name='photo-album' color="#DF7822"></box-icon>
       <p>Change Profile Photo</p>
       </div>
       <div class="log-out change">
-        <box-icon name='log-out'color="#DF7822"></box-icon>
-        <p>Log Out</p>
+        <box-icon name='log-out'class="logout" color="#DF7822"></box-icon>
+        <p class="logout">Log Out</p>
       </div>
       </div></div>
       </div></div>
@@ -76,17 +82,17 @@
         </select>
       </div>
       <div class="cards">
-        <div class="card">
+        <div class="card" id="element7">
           <p>Total Articles</p>
           <div class="sub-card"><p class="num">3</p><span><box-icon name='notepad'color="#DF7822"></box-icon></span></div>
         </div>
-        <div class="card">
-          <p>Edited Articles</p>
-          <div class="sub-card"><p class="num">3</p><span><box-icon name='edit-alt' color="#DF7822"></box-icon></span></div>
+        <div class="card" id="element6">
+          <p>Users</p>
+          <div class="sub-card"><p class="num">3</p><box-icon name='user-circle' type='solid' color='#df7822' ></box-icon></div>
         </div>
         <div class="card">
-          <p>Comments</p>
-          <div class="sub-card"><p class="num">3</p><span><box-icon color="#DF7822"name='chat'></box-icon></span></div>
+          <p>Views</p>
+          <div class="sub-card"><p class="num">3</p><box-icon type='solid' color="#DF7822"name='bullseye'></box-icon></div>
         </div>
         <div class="card">
           <p>Likes</p>
@@ -121,7 +127,7 @@
         </div>
         <div class="message"><p>congulatulations sis, i couldn't be any prouder &#x1F64C keep doing great things Martine &#x1F478</p>
         <div><span class="green ">reply</span>
-        <span class="red">mark as read</span></div></div></div>
+        <span class="red read">mark as read</span></div></div></div>
       </div>
       <div class="person11"><div class="person">
          <img src="/assets/images/WhatsApp Image 2024-02-01 at 17.41.01.jpeg" alt="my sis profile">
@@ -168,14 +174,14 @@
     <div class="cell">JohnDoe</div>
      <div class="cell cell1">doe@gmail.com</div>
     <div class="cell">Tower</div>
-    <div class="cell dots"><box-icon color="#DF7822" name='dots-vertical-rounded'size="md"></box-icon></div>
+    <div class="cell dots"><box-icon color="#DF7822" name='dots-vertical-rounded'size="md" class="action-btn"></box-icon></div>
   </div>
    <div class="grid">
     <div class="cell"><img src="https://source.unsplash.com/random/50x50" alt="Default Image"></div>
     <div class="cell">JohnDoe</div>
      <div class="cell cell1">doe@gmail.com</div>
     <div class="cell">Tower</div>
-    <div class="cell"><box-icon color="#DF7822" name='dots-vertical-rounded'size="md"></box-icon></div>
+    <div class="cell"><box-icon color="#DF7822" name='dots-vertical-rounded'size="md"class="action-btn"></box-icon></div>
   </div>
   <div class="grid">
     <div class="cell"><img src="https://source.unsplash.com/random/50x50" alt="Default Image"></div>
@@ -194,138 +200,71 @@
 </div>
 </div>
      </div>
-      </div>
-    </div>
+  
     <dialog id="modal1">
-       <h3>Add new Article</h3>
+       <div class="heading"><h3>Add Articles</h3>
+       <span style="font-size: 24px;" class="close-icon3">&#x274C;</span></div>
       <div class="add-article">
         <p>
           Title: 
         </p>
-        <input type="text" placeholder="Article Title" class="input11">
+        <input type="text" placeholder="Article Title" class="input11" required>
         <p>
           Author: 
         </p>
-        <input type="text" placeholder="Article Author" class="input11">
+        <input type="text" placeholder="Article Author" class="input11" required>
         <p>
           Description:
         </p>
         <textarea placeholder="Article Description"
         cols="30"
-        rows="10"></textarea> 
+        rows="10" required></textarea> 
         <p>
           Date: </p>
-          <input type="date" class="input11">
-         <p>
-          Choose image: <select name="" id="select1">
-        <option value="image">image1</option>
-        <option value="image">image2</option>
-        <option value="image">image3</option>
-        <option value="image">image4</option>
-        <option value="image">image5</option>
-       </select>
-        </p>
-        </div>
-        <div><button class="art-button">Create Article</button></div>
+          <input type="date" class="input11"required>
+          <p>
+          <p>
+            Choose image: </p> <input type="text"class="input11"required>
+         </div>
+         <div><button class="art-button">Add Article</button></div>
      </dialog>
 
      <dialog id="modal2">
       <div id="conversation">
         <h3>Conversations</h3>
-          <div class="article-data1">
-         <div class="person11"><div class="person">
-         <img src="/assets/images/WhatsApp Image 2024-02-01 at 17.41.01.jpeg" alt="my sis profile">
-       </div>
-       <div class="person">
-         <div class="name">
-          <strong>Dr.Sasharina</strong>
-          <big>1 hour ago</big>
-        </div>
-        <div class="message"><p>congulatulations sis, i couldn't be any prouder &#x1F64C keep doing great things Martine &#x1F478</p>
-        <div><span class="green ">reply</span>
-        <span class="red">mark as read</span><spa class="delete">Delete</spa></div></div>
-      </div></div>
-          </div>
-          <div class="article-data">
-                  <div class="person11"><div class="person">
-         <img src="/assets/images/WhatsApp Image 2024-02-01 at 17.41.01.jpeg" alt="my sis profile">
-       </div>
-       <div class="person">
-         <div class="name">
-          <strong>Dr.Sasharina</strong>
-          <big>1 hour ago</big>
-        </div>
-        <div class="message"><p>congulatulations sis, i couldn't be any prouder &#x1F64C keep doing great things Martine &#x1F478</p>
-        <div><span class="green ">reply</span>
-        <span class="red">mark as read</span><span class="delete">Delete</span></div></div></div>
-      </div>
-        </div>
-          <div class="article-data1">
-                 <div class="person11"><div class="person">
-         <img src="/assets/images/WhatsApp Image 2024-02-01 at 17.41.01.jpeg" alt="my sis profile">
-       </div>
-       <div class="person">
-         <div class="name">
-          <strong>Dr.Sasharina</strong>
-          <big>1 hour ago</big>
-        </div>
-        <div class="message"><p>congulatulations sis, i couldn't be any prouder &#x1F64C keep doing great things Martine &#x1F478</p>
-        <div><span class="green ">reply</span>
-        <span class="red">mark as read</span><span class="delete">Delete</span></div></div></div>
-      </div>
-        </div>
-       </div>
+         
+       </div> 
        <button class="close">Close Conversations</button>
       </dialog>
       <dialog id="modal3">
         <div class="edit-article">
-          <h3>Edit Article</h3>
+          <div class="heading"><h3>Edit Article</h3>
+          <span style="font-size: 24px;" class="close-icon2">&#x274C;</span></div>
+            <div class="search">
+            <input type="search" class="input11" placeholder="Search...">
+            </div>
           <p>
             Title: 
           </p>
-          <input type="text" value="Tower" class="input11">
+          <input type="text" placeholder="Title" class="input11">
           <p>
             Author: 
           </p>
-          <input type="text" value="Martine" class="input11">
+          <input type="text" placeholder="Author" class="input11">
           <p>
             Description:
           </p>
           <textarea cols="30"
-        rows="10" value="">  Article Description</textarea> 
+        rows="10" placeholder="Textarea" > Article Description</textarea> 
           <p>
             Date: </p>
-            <input type="date" class="input11">
+            <input type="date" id="date2" class="input11">
            <p>
-            Choose image: <select name="" id="select1">
-          <option value="image">image1</option>
-          <option value="image">image2</option>
-          <option value="image">image3</option>
-          <option value="image">image4</option>
-          <option value="image">image5</option>
-         </select>
+            Choose image: <input type="text" class="input11" id="image2"required>
           </p>
           </div>
           <div><button class="art-button1">Edit Article</button></div>
-       </dialog>
-       <dialog id="modal4">
-         <h3>Delete Article</h3>
-        <div class="delete-div">
-          <p>
-            Title: 
-          </p>
-          <input type="number"value="0787227509">
-          <p>
-            Author: 
-          </p>
-          <input type="text" value="Martine">
-          <p>
-           Published Date:
-          </p>
-          <input type="date"value=""></input> 
-          <div><button class="delete-btn">Delete Article</button></div>
-          </div>
-       </dialog>
+      </dialog>
        <dialog id="modal5">
         <div class="reply">
           <p>
@@ -344,6 +283,30 @@
           <div class="rep-btn"><button class="reply-btn">Send Reply</button></div>
           </div>
        </dialog>
+       <dialog id="modal7">
+         <div class="heading"><h3>All Articles</h3>
+       <span style="font-size: 24px;" class="close-icon1">&#x274C;</span></div>
+       </dialog>
+    <dialog id="modal8">
+    <div class="modal-header">
+      <h1 class="modal-title">Are you sure you want to delete this article?</h1>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel">&#x2716; Cancel</button>
+      <button class="btn-delete">&#x1F5D1; Delete</button>
+    </div>
+ </dialog>
+   <dialog id="modal9">
+         <div class="heading"><h3>All People Signed In</h3>
+       <span style="font-size: 24px;" class="close-icon6">&#x274C;</span></div>
+        <div class="grid">
+  <div class="cell header">No</div>
+  <div class="cell header header1">Email</div>
+</div>
+       </dialog>
+<diolog id="modal15">
+  <div class="popup"></div>
+</diolog>
     </main>
   </body>
 </html>

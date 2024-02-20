@@ -12,7 +12,8 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <script defer src="./assets/src/index.js"></script>
+    <script defer src="./assets/src/contact.js"></script>
+    <script defer src="./assets/src/menu.js"></script>
     <title>Landing Page</title>
   </head>
   <body>
@@ -28,8 +29,9 @@
         <a href="/pages/blog.html">Blog</a>
         <a href="#contact">Contact</a>
         <a href="/pages/login.html"
-          ><button>Log In</button></a
+          ><button class="login-btn">Log In</button></a
         >
+        <button class="logout-btn">Log Out</button>
       </nav>
       <div class="menu"><span><box-icon name='menu' color='black' ></box-icon></span></div>
     </header>
@@ -227,25 +229,68 @@
           </div>
           <div class="cont-form">
             <label for="form">Leave a message here:</label>
-            <form action="" id="form1">
-              <input type="text" placeholder="Full Names" />
-              <input type="text" placeholder="Email" />
-              <input type="number" placeholder="Phone Number" />
-              <textarea class="textarea1"
-                name=""
-                id=""
+            <form id="signup" class="firstForm">
+              <div class="form-field">
+                <input type="text" name="username" id="username" placeholder="Full Names" autocomplete="off" required>
+                <small></small>
+            </div>
+              <div class="form-field">
+                <input type="email" placeholder="Email" name="email" id="email" autocomplete="off"required>
+                <small></small>
+            </div>
+            <div class="form-field">
+              <textarea name="message"class="textarea1"
+                id="message"
                 cols="30"
                 rows="10"
                 placeholder="Type your message here"
               ></textarea>
+              <small></small>
+             </div>
+             <div class="hide mscontact"></div>
               <div class="send">
                 <span
-                  ><box-icon name="wink-smile" color="#ffa800"></box-icon></span
-                ><button>
+                  ><box-icon name="wink-smile"class="wink1" color="#ffa800"></box-icon></span
+                ><button class="send-message"type="submit">
                   Send Message
                 </button>
               </div>
             </form>
+            <div id="emojis">
+            <span>😊</span>
+            <span>😂</span>
+            <span>❤️</span>
+            <span>😍</span>
+            <span>😎</span>
+            <span>🎉</span>
+            <span>👍</span>
+            <span>🙌</span>
+            <span>🤣</span>
+            <span>🥳</span>
+            <span>🥰</span>
+            <span>🤩</span>
+            <span>🤗</span>
+            <span>😜</span>
+            <span>😘</span>
+            <span>😁</span>
+            <span>😇</span>
+            <span>🤔</span>
+            <span>🤪</span>
+            <span>🤭</span>
+             <span>💻</span>
+            <span>👨‍💻</span>
+            <span>💾</span>
+            <span>🖥️</span>
+            <span>⌨️</span>
+            <span>🖱️</span>
+            <span>📚</span>
+            <span>📝</span>
+            <span>🔍</span>
+            <span>🔒</span>
+            <span>💡</span>
+            <span>🛠️</span>
+</div>
+
           </div>
         </div>
       </div>

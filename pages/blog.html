@@ -12,7 +12,8 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <script defer src="/assets/src/index.js"></script>
+    <script defer src="/assets/src/menu.js"></script>
+    <script defer src="/assets/src/blogs.js"></script>
     <title>Blog Page</title>
   </head>
   <body>
@@ -27,42 +28,17 @@
         <a href="#about">About Me</a>
         <a href="/pages/blog.html">Blog</a>
         <a href="#contact">Contact</a>
-        <a href="/pages/login.html"><button>Log In</button></a>
+        <a href="/pages/login.html"
+          ><button class="login-btn">Log In</button></a
+        >
+        <button class="logout-btn">Log Out</button>
       </nav>
       <div class="menu">
         <span><box-icon name="menu" color="black"></box-icon></span>
       </div>
     </header>
-    <main>
-      <div class="blog-container">
-        <h2>Blog</h2>
-        <div class="content">
-          <h3>Paris Tower</h3>
-          <div>
-            <img
-              src="https://source.unsplash.com/Q0-fOL2nqZc/download"
-              alt="Eiffel Tower during daytime"
-              class="eiffel-tower"
-            />
-          </div>
-        </div>
-        <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa, nam.
-          Quod officiis nulla dolore eum hic, maiores odit necessitatibus
-          quibusdam iusto rem velit harum, magni quaerat sint consequuntur, ipsa
-          inventore.Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-          Culpa, nam. Quod officiis nulla dolore eum hic, maiores odit
-          necessitatibus quibusdam iusto rem velit harum, magni quaerat sint
-          consequuntur, ipsa inventore Lorem ipsum dolor sit, amet consectetur
-          adipisicing elit. Culpa, nam. Quod officiis nulla dolore eum hic,
-          maiores odit necessitatibus quibusdam iusto rem velit harum, magni
-          quaerat sint consequuntur, ipsa inventore.Lorem ipsum dolor sit, amet
-          consectetur adipisicing elit. Culpa, nam. Quod officiis nulla dolore
-          eum hic, maiores odit necessitatibus quibusdam iusto rem velit harum,
-          magni quaerat sint consequuntur, ipsa inventore
-        </p>
-        <a href="/pages/readmore.html"><strong>Readmore...</strong></a>
-      </div>
+    <main id="blogMain">
+      <h2>Blogs</h2>
     </main>
     <footer>
       <div class="cont">

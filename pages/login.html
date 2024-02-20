@@ -13,7 +13,8 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <script defer src="/assets/src/index.js"></script>
+    <script defer src="/assets/src/login.js"></script>
+    <script defer src="/assets/src/menu.js"></script>
     <title>LogIn Page</title>
   </head>
   <body>
@@ -24,28 +25,48 @@
         <h4><a href="/index.html">Home</a></h4>
       </div>
       <nav>
-        <a href="/pages/signup.html"><button>Sign Up</button></a>
+        <a href="/pages/signup.html" class="btn-log-in"
+          ><button class="login-btn">Sign Up</button></a
+        >
+        <button class="logout-btn">Log Out</button>
       </nav>
       <div class="menu">
         <span><box-icon name="menu" color="black"></box-icon></span>
       </div>
     </header>
     <main>
-      <div class="left-side">
+      <div class="left-side login-page">
         <h2>Log In</h2>
-        <form action="" id="">
-          <input type="text" placeholder="username or email" />
-          <div class="eye">
-            <input type="password" placeholder="password" class="paswd" />
-            <span
-              ><box-icon name="low-vision" color="rgba(68,68,68,0.3)"></box-icon
-            ></span>
+        <form id="signup" class="form">
+          <div class="form-field">
+            <label for="username">Email:</label>
+            <input
+              type="text"
+              name="email"
+              id="email"
+              autocomplete="off"
+              required
+            />
+            <small></small>
           </div>
+
+          <div class="form-field">
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              autocomplete="off"
+              required
+            />
+            <small></small>
+          </div>
+
           <div class="forget"><p>forget password?</p></div>
+          <div class="hide msgLogin"></div>
+          <button class="log-btn" type="submit">Log In</button>
         </form>
-        <a href="/pages/admin.html" class="log">
-          <button class="log-btn">Log In</button></a
-        >
+
         <div class="sign">
           <p clas="sign">
             <span><a href="/pages/signup.html">Sign Up</a></span

@@ -10,6 +10,9 @@ main {
 .live {
   margin-top: 10px;
 }
+.slider {
+  display: grid;
+}
 .slider-btns {
   display: flex;
   align-items: center;
@@ -55,16 +58,10 @@ main {
 }
 
 .dots__dot--active {
-  /* background-color: #fff; */
   background-color: #888;
   opacity: 1;
 }
-.slider {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 .slide::before {
   content: "\201C";
   position: absolute;
