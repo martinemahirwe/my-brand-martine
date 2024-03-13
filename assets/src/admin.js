@@ -1,7 +1,7 @@
 let loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
-if (loggedAdmin === null) {
-  window.location.href = "./login.html";
-}
+// if (loggedAdmin === null) {
+//   window.location.href = "./login.html";
+// }
 
 document.addEventListener("DOMContentLoaded", () => {
   const messagesContainer = document.querySelector("#conversation");

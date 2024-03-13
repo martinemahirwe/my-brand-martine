@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
   let loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
-  if (loggedAdmin === null) {
-    window.location.href = "./login.html";
-  }
+  // if (loggedAdmin === null) {
+  //   window.location.href = "./login.html";
+  // }
   const modal15 = document.querySelector("#modall15");
   const popup = document.querySelector(".popup");
   const body = document.querySelector("body");
@@ -13,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const elem7 = document.querySelector("#element7 .num");
   const modal3 = document.querySelector("#modal3");
   const cancelBtn = document.querySelector(".btn-cancel");
+
+  localStorage.removeItem("publishList");
+  localStorage.removeItem("BlogList");
 
   const showData = function () {
     let blogList;
@@ -27,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="blog">
         <h4>${blog.title}</h4>
         <div class="image-div">
-         <img src="https://images.unsplash.com/photo-1708439001065-b2947b811cf8?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8" alt="Blog Image">
+         <img src="${blog.image}"alt="Blog Image">
         </div>
         <p><strong>Written Date:</strong> ${blog.date}</p>
         <p><strong>Author:</strong> ${blog.author}</p>
@@ -38,24 +41,24 @@ document.addEventListener("DOMContentLoaded", function () {
           <button class="publish" data-key="${index}" type="button">Publish</button>
         </div>
       </div>`;
-      document.addEventListener("click", (e) => {
-        if (e.target.classList.contains("edit-blog")) {
-          updateArticle(index);
-        }
-        if (e.target.classList.contains("publish")) {
-          publishArt(index);
-          e.target.classList.remove("publish");
-          e.target.style.opacity = "0.5";
-          e.target.style.textContent = "Published";
-        }
-      });
     });
-
-    const deleteButton = document.querySelector(".btn-delete");
-
-    deleteButton.addEventListener("click", function () {
-      deleteArticle(this.m_id);
-      modal7.showModal();
+    document.addEventListener("click", (e) => {
+      if (e.target.classList.contains("edit-blog")) {
+        const index = e.target.dataset.key;
+        updateArticle(index);
+      }
+      if (e.target.classList.contains("btn-delete")) {
+        const index = e.target.dataset.key;
+        deleteArticle(index);
+        modal7.showModal();
+      }
+      if (e.target.classList.contains("publish")) {
+        const index = e.target.dataset.key;
+        publishArt(index);
+        e.target.classList.remove("publish");
+        e.target.style.opacity = "0.5";
+        e.target.style.textContent = "Published";
+      }
     });
 
     elem7.textContent = blogList.length;
@@ -67,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   showData();
 
-  const addArticle = function () {
+  const addArticle = async function () {
     const title = document.querySelector('[placeholder="Article Title"]').value;
     const author = document.querySelector(
       '[placeholder="Article Author"]'
@@ -78,36 +81,55 @@ document.addEventListener("DOMContentLoaded", function () {
     const date = document.querySelector('[type="date"]').value;
     const image = document.querySelector("#image2").value;
 
-    let blogList;
-    if (localStorage.getItem("blogList") === null) {
-      blogList = [];
-    } else {
-      blogList = JSON.parse(localStorage.getItem("blogList"));
-    }
-    blogList.push({
-      title,
-      author,
-      description,
-      date,
-      image,
-    });
-    localStorage.setItem("blogList", JSON.stringify(blogList));
+    try {
+      const token = getAuthToken();
 
-    setTimeout(() => {
+      const response = await fetch(
+        "https://my-brand-martine-backendapis.onrender.com/blogs/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            title,
+            author,
+            publishedDate: date,
+            shortDescript: description.substr(0, 100),
+            description,
+            imageLink: image,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to add article");
+      }
+
+      const responseData = await response.json();
+
       popup.innerText = "Data Added Successfully!";
       modal15.showModal();
-    }, 2000);
-    location.reload();
-    showData();
-
-    document.querySelector('[placeholder="Article Title"]').value = "";
-    document.querySelector('[placeholder="Article Author"]').value = "";
-    document.querySelector('[placeholder="Article Description"]').value = "";
-    document.querySelector('[type="date"]').value = "";
-    document.querySelector("#image2").value = "";
-
-    // alert("Data Added Successfully");
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+    } catch (error) {
+      console.error("Error adding article:", error.message);
+    }
   };
+
+  function getAuthToken() {
+    const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
+    const tokenCookie = cookies.find((cookie) =>
+      cookie.startsWith("authToken=")
+    );
+    if (tokenCookie) {
+      return tokenCookie.split("=")[1];
+    }
+    return null;
+  }
 
   const deleteArticle = function (index) {
     let blogList = JSON.parse(localStorage.getItem("blogList")) || [];
@@ -150,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("#date2").value = blogList[index].date;
     document.querySelector("#image2").value = blogList[index].image;
 
-    button2.addEventListener("click", function (index) {
+    button2.addEventListener("click", function () {
       blogList[index].title = document.querySelector('[type="search"]').value;
       blogList[index].title = document.querySelector(
         '[placeholder="Title"]'
@@ -185,12 +207,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const publishArt = function (index) {
     let blogList;
-    let publishList = [];
-    if (localStorage.getItem("blogList") === null) {
-      blogList = [];
-    } else {
-      blogList = JSON.parse(localStorage.getItem("blogList"));
-    }
+    let publishList;
+    blogList = JSON.parse(localStorage.getItem("blogList")) ?? [];
+    publishList = JSON.parse(localStorage.getItem("publishList")) ?? [];
+
     publishList.push(blogList[index]);
 
     localStorage.setItem("publishList", JSON.stringify(publishList));

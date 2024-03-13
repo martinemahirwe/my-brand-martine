@@ -105,8 +105,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   const displayFailMessage = (element, message) => {
-    const header6 = document.createElement("h6");
+    const header6 = document.createElement("h4");
     element.classList.remove("hide");
+    header6.style.color = "white";
     element.style.background = "#770a0afc";
     element.appendChild(header6).innerText = `${message}`;
     setTimeout(() => {
@@ -114,52 +115,61 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 2000);
   };
 
-  const checkUser = function () {
+  const checkUser = async function () {
     const password = passwordEl.value.trim().toLowerCase();
     const email = emailEl.value.trim().toLowerCase();
 
-    let getData = JSON.parse(window.localStorage.getItem("userArray"));
+    try {
+      // Clear existing cookie
+      document.cookie = "authToken=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
 
-    if (getData === null) {
-      displayFailMessage(
-        document.querySelector(".mesgLogin"),
-        "Sign Up First !!"
-      );
-    } else {
-      let emailFound = false;
-      for (const items of getData) {
-        if (items.u_email === email) {
-          emailFound = true;
-          if (items.u_password === password) {
-            if (email === "mahirwe@gmail.com") {
-              loggedId = items.u_id;
-              setAdmin(loggedId);
-              window.location.href = "./admin.html";
-              return;
-            } else {
-              loggedId = items.u_id;
-              setLogged(loggedId);
-              window.location.href = "./readmore.html";
-              return;
-            }
-          } else {
-            displayFailMessage(
-              document.querySelector(".mesgLogin"),
-              "Wrong Credentials!!"
-            );
-            return;
-          }
+      // Make a POST request to your backend API
+      const response = await fetch(
+        "https://my-brand-martine-backendapis.onrender.com/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
         }
+      );
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.message || "Failed to login");
       }
-      if (!emailFound) {
+
+      const { user, token } = responseData;
+
+      if (user) {
+        // Store the token in a cookie
+        document.cookie = `authToken=${token}; max-age=${24 * 60 * 60}; path=/`;
+
+        if (user.email === "mahirwe@gmail.com") {
+          window.location.href = "./admin.html";
+        } else {
+          window.location.href = "./readmore.html";
+        }
+      } else {
         displayFailMessage(
-          document.querySelector(".mesgLogin"),
-          "You are not registered !!"
+          document.querySelector(".msgLogin"),
+          "Invalid email or password"
         );
-        return;
       }
+    } catch (error) {
+      console.error("Error logging in:", error.message);
+      displayFailMessage(
+        document.querySelector(".msgLogin"),
+        "Failed to login. Please try again later."
+      );
     }
   };
+
   const setLogged = (userId) => {
     let userIdText = JSON.stringify(userId);
     window.localStorage.setItem("loggedUser", userIdText);

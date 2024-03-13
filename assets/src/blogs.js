@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function (e) {
+document.addEventListener("DOMContentLoaded", function () {
   const blogMain = document.querySelector("#blogMain");
 
   const btnLogout = document.querySelector(".logout-btn");
@@ -18,35 +18,51 @@ document.addEventListener("DOMContentLoaded", function (e) {
     btnLogout.style.display = "none";
   }
 
+  let publishList;
+  if (localStorage.getItem("publishList") === null) {
+    publishList = [];
+  } else {
+    publishList = JSON.parse(localStorage.getItem("publishList"));
+  }
   const showBlogData = function () {
-    let publishList;
-    if (localStorage.getItem("publishList") === null) {
-      publishList = [];
-    } else {
-      publishList = JSON.parse(localStorage.getItem("publishList"));
-    }
-
     let blogHtml = "";
     publishList.forEach((blog) => {
-      blogHtml = `
-        <div class="content">
+      blogHtml += `
           <h3>${blog.title}</h3>
-          <div>
-            <img
-              src="https://images.unsplash.com/photo-1708439001065-b2947b811cf8?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8"
-            />
+          <div class="content">
+            <img src="https://images.unsplash.com/photo-1708439001065-b2947b811cf8?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8" />
           </div>
-        </div>
-        <p>${blog.description}
-        </p>
-        <a href="/pages/readmore.html"><strong>Readmore...</strong></a>
-        `;
-      const container = document.createElement("div");
-      container.innerHTML = blogHtml;
-      container.classList.add("blog-container");
-      blogMain.appendChild(container);
+          <p>${blog.description}</p>
+          <strong data-blog='${blog.b_id}'class="readmore">Readmore...</strong>
+      `;
     });
-  };
 
+    document.addEventListener("click", (e) => {
+      if (e.target.classList.contains("readmore")) {
+        const blogId = e.target.dataset.blog;
+        const blogDetails = publishList.find(
+          (blog) => blog.b_id === parseInt(blogId)
+        );
+        window.location.href = "./readmore.html";
+        sessionStorage.setItem("blogDetails", JSON.stringify(blogDetails));
+      }
+    });
+
+    const container = document.createElement("div");
+    container.innerHTML = blogHtml;
+    container.classList.add("blog-container");
+    blogMain.appendChild(container);
+  };
   showBlogData();
+
+  const logoutFunction = () => {
+    window.localStorage.removeItem("loggedUser");
+    window.localStorage.removeItem("loggedAdmin");
+    window.location.href = "../index.html";
+  };
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("logout-btn")) {
+      logoutFunction();
+    }
+  });
 });

@@ -116,8 +116,9 @@ document.addEventListener("DOMContentLoaded", () => {
   validateForm();
 
   const displaySuccessMsg = (element, message) => {
-    const header6 = document.createElement("h6");
+    const header6 = document.createElement("h4");
     element.classList.remove("hide");
+    header6.style.color = "white";
     element.style.background = "#4cb54cb5";
     element.appendChild(header6).innerText = `${message}`;
     setTimeout(() => {
@@ -144,53 +145,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let id;
 
-  const addMessage = function () {
-    let messageList = [];
+  const addMessage = async function () {
     const name = usernameEl.value;
     const message = messageEl.value;
     const email = emailEl.value;
 
-    let getData = JSON.parse(localStorage.getItem("messageList"));
+    try {
+      const response = await fetch(
+        "https://my-brand-martine-backendapis.onrender.com/messages/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            message,
+          }),
+        }
+      );
 
-    if (getData === null) {
-      id = 1;
-      messageList.push({
-        m_id: id,
-        m_name: name,
-        m_message: message,
-        m_email: email,
-      });
-      localStorage.setItem("messageList", JSON.stringify(messageList));
-     displaySuccessMsg(
-       document.querySelector(".msgcontact"),
-       "YOU ARE REGISTERED SUCCESSFULLY!! YOU CAN LOGIN "
-     );
-      location.reload();
-      showData();
+      if (!response.ok) {
+        throw new Error("Failed to add message");
+      }
 
-      name = "";
-      message = "";
-      email = "";
-    } else {
-      messageList = getData;
-      const length = messageList.length;
-      id = length + 1;
+      displaySuccessMsg(
+        document.querySelector(".msgContact"),
+        "Your message was delivered successfully!"
+      );
 
-      messageList.push({
-        m_id: id,
-        m_name: name,
-        m_message: message,
-        m_email: email,
-      });
-
-      localStorage.setItem("messageList", JSON.stringify(messageList));
-      alert("Message Sent success full");
-      location.reload();
-      showData();
-
-      name = "";
-      message = "";
-      email = "";
+      setTimeout(() => {
+        location.reload();
+        window.location.href = "./login.html";
+      }, 2000);
+    } catch (error) {
+      console.error("Error adding message:", error.message);
+      displayFailMessage(
+        document.querySelector(".msgContact"),
+        "Failed to deliver message. Please try again later."
+      );
     }
   };
+
+  const logoutFunction = () => {
+    window.localStorage.removeItem("loggedUser");
+    window.localStorage.removeItem("loggedAdmin");
+    window.location.href = "../index.html";
+  };
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("logout-btn")) {
+      logoutFunction();
+    }
+  });
 });

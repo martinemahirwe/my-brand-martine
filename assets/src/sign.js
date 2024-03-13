@@ -1,9 +1,12 @@
 let loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+let loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
 
 if (loggedUser !== null) {
-  window.location.href = "./login.html";
+  window.location.href = "../index.html";
 }
-
+if (loggedAdmin !== null) {
+  window.location.href = "./admin.html";
+}
 const emailEl = document.querySelector("#email");
 const passwordEl = document.querySelector("#password");
 const confirmPasswordEl = document.querySelector("#confirm-password");
@@ -121,7 +124,8 @@ form.addEventListener("submit", function (e) {
 });
 
 const displaySuccessMsg = (element, message) => {
-  const header6 = document.createElement("h6");
+  const header6 = document.createElement("h4");
+  header6.style.color = "white";
   element.classList.remove("hide");
   element.style.background = "#4cb54cb5";
   element.appendChild(header6).innerText = `${message}`;
@@ -131,7 +135,8 @@ const displaySuccessMsg = (element, message) => {
 };
 
 const displayFailMessage = (element, message) => {
-  const header6 = document.createElement("h6");
+  const header6 = document.createElement("h4");
+  header6.style.color = "white";
   element.classList.remove("hide");
   element.style.background = "#770a0afc";
   element.appendChild(header6).innerText = `${message}`;
@@ -140,64 +145,44 @@ const displayFailMessage = (element, message) => {
   }, 2000);
 };
 
-const addUser = function () {
-  let userArray = [];
+const addUser = async function () {
   const confirmPassword = confirmPasswordEl.value.trim().toLowerCase();
   const email = emailEl.value.trim().toLowerCase();
 
-  let getData = JSON.parse(window.localStorage.getItem("userArray"));
+  try {
+    const response = await fetch(
+      "https://my-brand-martine-backendapis.onrender.com/auth/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password: confirmPassword,
+          userRole: "user",
+        }),
+      }
+    );
 
-  if (getData === null) {
-    let id = 1;
-    let user = createUser(id, email, confirmPassword);
-
-    userArray.push(user);
-    window.localStorage.setItem("userArray", JSON.stringify(userArray));
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage || "Failed to register user");
+    }
 
     displaySuccessMsg(
       document.querySelector(".msgSignup"),
-      "Signed Up successFull, You can Logon! "
+      "Registered successfully! You can now login."
     );
 
     setTimeout(() => {
       window.location.href = "./login.html";
     }, 2000);
-  } else {
-    userArray = getData;
-    for (const items of userArray) {
-      if (items.u_email === email) {
-        displayFailMessage(
-          document.querySelector(".msgSignup"),
-          "this email already signed up !!"
-        );
-        return;
-      }
-    }
+  } catch (error) {
+    console.error("Error registering user:", error.message);
+    displayFailMessage(
+      document.querySelector(".msgSignup"),
+      "Failed to register user. Please try again later."
+    );
   }
-  let currentDbLength = userArray.length;
-  let id = currentDbLength + 1;
-  let user = createUser(id, email, confirmPassword);
-
-  userArray.push(user);
-  window.localStorage.setItem("userArray", JSON.stringify(userArray));
-
-  displaySuccessMsg(
-    document.querySelector(".msgSignup"),
-    "registerd success full "
-  );
-  setTimeout(() => {
-    window.location.href = "./login.html";
-  }, 2000);
-};
-
-const createUser = (u_id, u_email, u_password) => {
-  userAccount = {
-    u_id: u_id,
-    u_email: u_email,
-    u_password: u_password,
-    u_pic: "",
-    u_dec: "",
-  };
-
-  return userAccount;
 };

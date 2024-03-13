@@ -40,7 +40,39 @@
         <span><box-icon name="menu" color="black"></box-icon></span>
       </div>
     </header>
-    <main id="singleBlog"></main>
+    <main id="singleBlog">
+      <div class="read-container">
+        <div class="comments">
+          <p class="numbers" id="comment-count">0 Comments</p>
+          <div class="liked">
+            <box-icon name="like" color="#555555" size="sm"></box-icon>
+            <span id="totalLikes">0</span>
+            <div class="likes">
+              <box-icon name="dislike" color="#555555"></box-icon>
+            </div>
+          </div>
+        </div>
+        <textarea
+          name="message"
+          class="textarea1"
+          id="message"
+          cols="30"
+          rows="10"
+          placeholder="Type your message here"
+        ></textarea>
+        <small></small>
+        <div class="send-comment">
+          <span
+            ><box-icon
+              name="wink-smile"
+              class="wink1"
+              color="#ffa800"
+            ></box-icon
+          ></span>
+          <button class="send-message" type="submit">Send Comment</button>
+        </div>
+      </div>
+    </main>
 
     <footer>
       <div class="cont">
