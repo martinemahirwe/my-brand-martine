@@ -160,7 +160,6 @@ const addUser = async function () {
         body: JSON.stringify({
           email,
           password: confirmPassword,
-          userRole: "user",
         }),
       }
     );

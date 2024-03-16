@@ -141,8 +141,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.cookie = `jwt=${token}; max-age=${24 * 60 * 60}; path=/`;
 
          console.log(user.userRole);
-
-        if (user.userRole === "user") {
+         
+        if (user.userRole === "admin") {
           window.location.href = "./admin.html";
         } else {
           window.location.href = "./readmore.html";
