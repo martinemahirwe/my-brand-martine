@@ -357,13 +357,9 @@ textarea {
   color: #fff;
   font-size: 24px;
 }
-/* #modal10 {
-  margin-right: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 22%;
-} */
+.delete-user {
+  color: red !important;
+}
 .bell-container {
   position: relative;
 }

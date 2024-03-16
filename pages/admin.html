@@ -223,10 +223,9 @@
           Date: </p>
           <input type="date" class="input11"id="date2"required>
           <p>
-          <p>
             Choose image: </p> <input type="text"class="input11" id="image2"required>
          </div>
-         <div><button class="art-button">Add Article</button></div>
+         <div><button id="addArticles"class="art-button">Add Article</button></div>
      </dialog>
 
      <dialog id="modal2">
@@ -240,9 +239,6 @@
         <div class="edit-article">
           <div class="heading"><h3>Edit Article</h3>
           <span style="font-size: 24px;" class="close-icon2">&#x274C;</span></div>
-            <div class="search">
-            <input type="search" class="input11" placeholder="Search...">
-            </div>
           <p>
             Title: 
           </p>
@@ -255,13 +251,12 @@
             Description:
           </p>
           <textarea cols="30"
-        rows="10" placeholder="Textarea" > Article Description</textarea> 
+        rows="10" placeholder="description" ></textarea> 
           <p>
             Date: </p>
             <input type="date" id="date2" class="input11">
            <p>
-            Choose image: <input type="text" class="input11" id="image2"required>
-          </p>
+            Choose image:</p> <input type="text" class="input11" id="image2"required>
           </div>
           <div><button class="art-button1">Edit Article</button></div>
       </dialog>
@@ -297,11 +292,13 @@
     </div>
  </dialog>
    <dialog id="modal9">
-         <div class="heading"><h3>All People Signed In</h3>
+         <div class="heading"><h3>All Users</h3>
        <span style="font-size: 24px;" class="close-icon6">&#x274C;</span></div>
         <div class="grid">
   <div class="cell header">No</div>
   <div class="cell header header1">Email</div>
+  <div class="cell header header1">User Role</div>
+  <div class="cell header header1">Delete</div>
 </div>
        </dialog>
 <diolog id="modal15">

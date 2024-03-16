@@ -1,8 +1,8 @@
-let loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-let loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
+let loggedUser = localStorage.getItem("tokenAdmin");
+let loggedAdmin = localStorage.getItem("token");
 
 if (loggedUser !== null) {
-  window.location.href = "../index.html";
+  window.location.href = "./login.html";
 }
 if (loggedAdmin !== null) {
   window.location.href = "./admin.html";
@@ -159,7 +159,7 @@ const addUser = async function () {
         },
         body: JSON.stringify({
           email,
-          password: confirmPassword,
+          password: confirmPassword
         }),
       }
     );

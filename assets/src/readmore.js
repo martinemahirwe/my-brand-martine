@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const btnLogout = document.querySelector(".logout-btn");
   const btnLogin = document.querySelector(".login-btn");
 
-  let loggedId = JSON.parse(localStorage.getItem("loggedUser"));
-  let loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
+  let loggedId = localStorage.getItem("token");
+  let loggedAdmin = localStorage.getItem("tokenAdmin");
 
   if (loggedId !== null) {
     btnLogin.style.display = "none";
@@ -16,33 +16,51 @@ document.addEventListener("DOMContentLoaded", function () {
     btnLogout.style.display = "none";
   }
 
-  let publishList;
-  if (localStorage.getItem("publishList") === null) {
-    publishList = [];
-  } else {
-    publishList = JSON.parse(localStorage.getItem("publishList"));
-  }
+  // Fetch published blogs
+  fetch(`https://my-brand-martine-backendapis.onrender.com/blogs/published/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": loggedAdmin || loggedId
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Failed to fetch published blogs");
+    }
+    return response.json();
+  })
+  .then(data => {
+    const readmoreButtons = document.querySelectorAll(".readmore");
+    readmoreButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const blogId = button.dataset.blog;
+        const blog = data.find(blog => blog._id === blogId);
+        if (blog) {
+          showBlogDetails(blog);
+        } else {
+          console.error("Blog not found");
+        }
+      });
+    });
+  })
+  .catch(error => {
+    console.error("Error fetching published blogs:", error.message);
+  });
 
-  const showBlogDetails = function () {
+  const showBlogDetails = function (blog) {
     const singleBlog = document.querySelector("#singleBlog");
 
-    let blogDetails;
-    if (sessionStorage.getItem("blogDetails") === null) {
-      blogDetails = [];
-    } else {
-      blogDetails = JSON.parse(sessionStorage.getItem("blogDetails"));
-    }
-
     let blogHtml = "";
-    if (blogDetails) {
+    if (blog) {
       blogHtml += `
-        <h2>${blogDetails.title}</h2>
+        <h2>${blog.title}</h2>
         <div class="content">
-          <img src="https://images.unsplash.com/photo-1708439001065-b2947b811cf8?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8" alt="Eiffel Tower during daytime" class="eiffel-tower" />
+          <img src="${blog.imageLink}" alt="${blog.title}" class="eiffel-tower" />
         </div>
-        <span>${blogDetails.date}</span>
-        <p>${blogDetails.description}</p>
-        <div class="latest-comments" id="latest-comments-${blogDetails.b_id}" data-num='${blogDetails.b_id}'>
+        <span>${blog.publishedDate}</span>
+        <p>${blog.shortDescript}</p>
+        <div class="latest-comments" id="latest-comments-${blog._id}" data-num="${blog._id}">
           <h3>Latest Comments here</h3>
         </div>
       </div>`;
@@ -52,25 +70,34 @@ document.addEventListener("DOMContentLoaded", function () {
     container.classList.add("read-container");
     singleBlog.prepend(container);
 
-    const comId = document.querySelector(".latest-comments").dataset.num;
-    displayComments(comId);
-    // const lid = document.querySelector(".likes-count").dataset.like;
-    // displayLikes(lid);
+    if (blog) {
+      displayComments(blog._id);
+    }
   };
-  showBlogDetails();
 
   function displayComments(cid) {
-    const latestCommentsContainer = document.querySelector(
-      `#latest-comments-${cid}`
-    );
-    let commentData = JSON.parse(localStorage.getItem("comments")) || [];
-    document.querySelector(
-      "#comment-count"
-    ).innerHTML = `${commentData.length} Comments`;
-    let commentsHtml = "";
-    commentData.forEach((comment) => {
-      if (comment.b_id === cid) {
-        // Check if comment is not null or undefined
+    // Fetch comments for the given blog post
+    fetch(`https://my-brand-martine-backendapis.onrender.com/blogs/${cid}/comments`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": loggedAdmin || loggedId
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch comments");
+      }
+      return response.json();
+    })
+    .then(commentData => {
+      const latestCommentsContainer = document.querySelector(`#latest-comments-${cid}`);
+      if (!latestCommentsContainer) return;
+      
+      document.querySelector("#comment-count").innerHTML = `${commentData.length} Comments`;
+
+      let commentsHtml = "";
+      commentData.forEach((comment) => {
         commentsHtml += `
           <div class="person11">
             <div class="person">
@@ -78,57 +105,31 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <div class="person">
               <div class="name">
-                <strong>${comment.c_name}</strong>
-                <big>${comment.c_date}</big>
+                <strong>${comment.name}</strong>
+                <big>${comment.date}</big>
               </div>
-              <div class="message"><p>${comment.c_mes}</p></div>
+              <div class="message"><p>${comment.comment}</p></div>
               <div class="reacts">
-                <box-icon name="like"class='like-btn' color='#555555' size="small"><span class="likes-count likes-count-${comment.c_id}" data-like = ${comment.c_id}>0</span></box-icon><span>0</span>
+                <box-icon name="like" class='like-btn' color='#555555' size="small">
+                  <span class="likes-count likes-count-${comment._id}" data-like="${comment._id}">${comment.likes}</span>
+                </box-icon>
+                <span>${comment.likes}</span>
                 <div><box-icon name='dislike' color='#555555'></box-icon></div>
                 <p>Reply</p>
               </div>
             </div>
           </div>`;
-      }
+      });
+
+      const commentDiv = document.createElement("div");
+      commentDiv.innerHTML = commentsHtml;
+      commentDiv.classList.add("read");
+      latestCommentsContainer.appendChild(commentDiv);
+    })
+    .catch(error => {
+      console.error("Error fetching comments:", error.message);
     });
-    const commentDiv = document.createElement("div");
-    commentDiv.innerHTML = commentsHtml;
-    commentDiv.classList.add("read");
-    latestCommentsContainer.appendChild(commentDiv);
   }
-
-  const addComment = function (id, message) {
-    const currentId = JSON.parse(localStorage.getItem("loggedUser"));
-
-    if (currentId === null) {
-      alert("You need to be logged in to add a comment.");
-      return;
-    }
-    const users = JSON.parse(localStorage.getItem("userArray"));
-    const currentUser = users.find((user) => user.u_id === parseInt(currentId));
-
-    let comments;
-    c_id = null;
-    if (localStorage.getItem("comments") === null) {
-      c_id = 1;
-      comments = [];
-    } else {
-      comments = JSON.parse(localStorage.getItem("comments"));
-      c_id = comments.length + 1;
-    }
-
-    const newComment = {
-      b_id: id,
-      u_id: currentUser.u_id,
-      c_id,
-      c_name: currentUser.u_email,
-      c_date: new Date().toLocaleString(),
-      c_mes: message,
-    };
-    comments.push(newComment);
-    localStorage.setItem("comments", JSON.stringify(comments));
-    displayComments(id);
-  };
 
   // function displayLikes(id) {
   //   let likeData = JSON.parse(localStorage.getItem("likes")) || [];

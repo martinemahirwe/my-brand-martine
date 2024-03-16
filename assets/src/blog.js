@@ -1,218 +1,284 @@
-document.addEventListener("DOMContentLoaded", function () {
-  let loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
-  // if (loggedAdmin === null) {
-  //   window.location.href = "./login.html";
-  // }
-  const modal15 = document.querySelector("#modall15");
-  const popup = document.querySelector(".popup");
-  const body = document.querySelector("body");
-  const buttonEl = document.querySelector(".art-button");
-  const button2 = document.querySelector(".art-button1");
-  const modal8 = document.querySelector("#modal8");
-  const modal7 = document.querySelector("#modal7");
-  const elem7 = document.querySelector("#element7 .num");
-  const modal3 = document.querySelector("#modal3");
-  const cancelBtn = document.querySelector(".btn-cancel");
 
-  localStorage.removeItem("publishList");
-  localStorage.removeItem("BlogList");
+let loggedAdmin = localStorage.getItem("tokenAdmin");
 
-  const showData = function () {
-    let blogList;
-    if (localStorage.getItem("blogList") === null) {
-      blogList = [];
-    } else {
-      blogList = JSON.parse(localStorage.getItem("blogList"));
+if (loggedAdmin === null) {
+  window.location.href = "./login.html";
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+const modal15 = document.querySelector("#modall15");
+const popup = document.querySelector(".popup");
+const body = document.querySelector("body");
+const button2 = document.querySelector(".art-button1");
+const modal8 = document.querySelector("#modal8");
+const modal7 = document.querySelector("#modal7");
+const elem7 = document.querySelector("#element7 .num");
+const modal3 = document.querySelector("#modal3");
+const cancelBtn = document.querySelector(".btn-cancel");
+
+
+const addArtBtn = document.getElementById("addArticles")
+
+addArtBtn.addEventListener("click",addArticle);
+
+async function addArticle() {
+  const title = document.querySelector('[placeholder="Article Title"]').value;
+  const author = document.querySelector(
+    '[placeholder="Article Author"]'
+  ).value;
+  const description = document.querySelector(
+    '[placeholder="Article Description"]'
+  ).value;
+  const date = document.querySelector('[type="date"]').value;
+  const image = document.querySelector("#image2").value;
+
+  try {
+   
+    const response = await fetch(
+      "https://my-brand-martine-backendapis.onrender.com/blogs/create",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: localStorage.getItem("tokenAdmin")
+        },
+        body: JSON.stringify({
+          title,
+          author,
+          publishedDate: date,
+          shortDescript: description.substr(0, 100),
+          description,
+          imageLink: image,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to add article");
     }
-    let html = "";
-    blogList.forEach((blog, index) => {
-      html += `
+
+    const responseData = await response.json();
+    console.log(responseData);
+
+     popup.innerText = "Data Added Successfully!";
+     modal15.showModal();
+    setTimeout(() => {
+      location.reload();
+    }, 2000);
+  } catch (error) {
+    console.error("Error adding article:", error.message);
+  }
+};
+
+
+  const showData = async function () {
+    let bloghtml = "";
+    try {
+      const response = await fetch(
+        "https://my-brand-martine-backendapis.onrender.com/blogs",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: localStorage.getItem("tokenAdmin")
+          }
+        }
+      );
+      const blogList = await response.json();
+     
+  
+      if (!response.ok) {
+        throw new Error("Failed to load messages");
+      }
+      if(blogList){
+       console.log(blogList)
+  
+    for(let i = 0;i < blogList.length;i++){
+      let index = blogList[i]._id;
+      bloghtml += `
       <div class="blog">
-        <h4>${blog.title}</h4>
+        <h4>${blogList[i].title}</h4>
         <div class="image-div">
-         <img src="${blog.image}"alt="Blog Image">
+         <img src="${blogList[i].image}"alt="Blog Image">
         </div>
-        <p><strong>Written Date:</strong> ${blog.date}</p>
-        <p><strong>Author:</strong> ${blog.author}</p>
-        <p>${blog.description}</p>
+        <p data-key="${blogList[i].publishedDate}"><strong>Written Date:</strong> ${blogList[i].publishedDate}</p>
+        <p><strong>Author:</strong> ${blogList[i].author}</p>
+        <p><strong>shortDescrption:</strong>${blogList[i].shortDescript}</p>
+        <p><strong>isPublished:</strong>${blogList[i].isPublished}</p>
         <div class="actions">
           <button class="delete-blog" data-key="${index}">Delete</button>
-          <button class="edit-blog" data-key="${index}" type="button">Edit</button>
-          <button class="publish" data-key="${index}" type="button">Publish</button>
+          <button class="edit-blog" data-key="${encodeURIComponent(JSON.stringify(blogList[i]) + '|' + blogList[i]._id)}" type="button">Edit</button>
+          <button class="publish" data-key="${encodeURIComponent(blogList[i].title + '|' + blogList[i].publishedDate)}" type="button">Publish</button>
+          </div>
         </div>
       </div>`;
-    });
+    };
+  }
+   let dataIndex ="";
     document.addEventListener("click", (e) => {
+      if (e.target.classList.contains("delete-blog")) {
+        dataIndex = e.target.dataset.key;
+        console.log(dataIndex)
+        modal8.showModal();
+      }
       if (e.target.classList.contains("edit-blog")) {
-        const index = e.target.dataset.key;
-        updateArticle(index);
+        const dataKey = e.target.dataset.key;
+        const [blog,id] = decodeURIComponent(dataKey).split('|');
+        const blogT = JSON.parse(blog)
+        updateArticle(id,blogT);
       }
       if (e.target.classList.contains("btn-delete")) {
-        const index = e.target.dataset.key;
-        deleteArticle(index);
+       deleteArticle(dataIndex);
         modal7.showModal();
       }
       if (e.target.classList.contains("publish")) {
-        const index = e.target.dataset.key;
-        publishArt(index);
+        const dataKey = e.target.dataset.key;
+        const [title, publishedDate] = decodeURIComponent(dataKey).split('|');
+        publishArt(title,publishedDate);
         e.target.classList.remove("publish");
         e.target.style.opacity = "0.5";
-        e.target.style.textContent = "Published";
+        e.target.textContent = "Published"
       }
     });
 
     elem7.textContent = blogList.length;
     const container = document.createElement("div");
     container.classList.add("container");
-    container.innerHTML = html;
+    container.innerHTML = bloghtml;
     modal7.appendChild(container);
-  };
-
-  showData();
-
-  const addArticle = async function () {
-    const title = document.querySelector('[placeholder="Article Title"]').value;
-    const author = document.querySelector(
-      '[placeholder="Article Author"]'
-    ).value;
-    const description = document.querySelector(
-      '[placeholder="Article Description"]'
-    ).value;
-    const date = document.querySelector('[type="date"]').value;
-    const image = document.querySelector("#image2").value;
-
-    try {
-      const token = getAuthToken();
-
-      const response = await fetch(
-        "https://my-brand-martine-backendapis.onrender.com/blogs/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            
-          },
-          credentials:"include",
-          body: JSON.stringify({
-            title,
-            author,
-            publishedDate: date,
-            shortDescript: description.substr(0, 100),
-            description,
-            imageLink: image,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to add article");
-      }
-
-      const responseData = await response.json();
-
-      popup.innerText = "Data Added Successfully!";
-      modal15.showModal();
-      setTimeout(() => {
-        location.reload();
-      }, 2000);
-    } catch (error) {
-      console.error("Error adding article:", error.message);
-    }
-  };
-
-  function getAuthToken() {
-    const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
-    const tokenCookie = cookies.find((cookie) =>
-      cookie.startsWith("jwt=")
-    );
-    if (tokenCookie) {
-      return tokenCookie.split("=")[1];
-    }
-    return null;
+  }catch (error) {
+      console.error("Error fetching blogs:", error.message);
   }
+  };
+showData();
+  
+// const btnLogout = document.querySelector(".logout-btn");
 
-  const deleteArticle = function (index) {
-    let blogList = JSON.parse(localStorage.getItem("blogList")) || [];
-    let publishList = JSON.parse(localStorage.getItem("publishList")) || [];
+cancelBtn.addEventListener("click", function () {
+  modal8.close();
+});
 
-    blogList.splice(index, 1);
-    publishList.splice(index, 1);
-    localStorage.setItem("blogList", JSON.stringify(blogList));
-    localStorage.setItem("publishList", JSON.stringify(publishList));
+   async function deleteArticle (id) {
+
+    const response = await fetch(
+      `https://my-brand-martine-backendapis.onrender.com/blogs/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: localStorage.getItem("tokenAdmin")
+        },
+        body: JSON.stringify({
+ 
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to add article");
+    }
+
+    const responseData = await response.json();
+    console.log(responseData);
 
     location.reload();
     showData();
-    alert("Data Deleted Successfully");
   };
 
   document.addEventListener("click", function (event) {
-    if (event.target.classList.contains("delete-blog")) {
-      modal8.showModal();
-    }
+  
     if (event.target.classList.contains("edit-blog")) {
       modal3.showModal();
     }
   });
 
-  const updateArticle = function (index) {
-    let blogList;
-    if (localStorage.getItem("blogList") === null) {
-      blogList = [];
-    } else {
-      blogList = JSON.parse(localStorage.getItem("blogList"));
+  const updateArticle = async function (id, articleData) {
+    try {
+      document.querySelector('[placeholder="Title"]').value = articleData.title;
+      document.querySelector('[placeholder="Author"]').value = articleData.author;
+      document.querySelector('[placeholder="description"]').value = articleData.description;
+      document.querySelector("#date2").value = articleData.date;
+      document.querySelector("#image2").value = articleData.imageLink; // Corrected property name
+  
+      button2.addEventListener("click", async function () {
+        const updatedArticle = {
+          title: document.querySelector('[placeholder="Title"]').value,
+          shortDescript: document.querySelector('[placeholder="description"]').value,
+          description: document.querySelector('[placeholder="description"]').value,
+          imageLink: document.querySelector("#image2").value,
+          publishedDate: document.querySelector("#date2").value
+        };
+        
+        const patchResponse = await fetch(`https://my-brand-martine-backendapis.onrender.com/blogs/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": localStorage.getItem("tokenAdmin")
+          },
+          body: JSON.stringify(updatedArticle)
+        });
+  
+        if (!patchResponse.ok) {
+          throw new Error("Failed to update article");
+        }
+  
+        location.reload();
+        showData();
+
+        document.querySelector('[placeholder="Article Title"]').value = "";
+        document.querySelector('[placeholder="Author"]').value = "";
+        document.querySelector('[placeholder="Textarea"]').value = "";
+        document.querySelector("#date2").value = "";
+        document.querySelector("#image2").value = "";
+      });
+    } catch (error) {
+      console.error("Error updating article:", error.message);
     }
-
-    document.querySelector('[type="search"]').value = blogList[index].title;
-    document.querySelector('[placeholder="Title"]').value =
-      blogList[index].title;
-    document.querySelector('[placeholder="Author"]').value =
-      blogList[index].author;
-    document.querySelector('[placeholder="Textarea"]').value =
-      blogList[index].description;
-    document.querySelector("#date2").value = blogList[index].date;
-    document.querySelector("#image2").value = blogList[index].image;
-
-    button2.addEventListener("click", function () {
-      blogList[index].title = document.querySelector('[type="search"]').value;
-      blogList[index].title = document.querySelector(
-        '[placeholder="Title"]'
-      ).value;
-      blogList[index].author = document.querySelector(
-        '[placeholder="Author"]'
-      ).value;
-      blogList[index].description = document.querySelector(
-        '[placeholder="Textarea"]'
-      ).value;
-      blogList[index].date = document.querySelector("#date2").value;
-      blogList[index].image = document.querySelector("#image2").value;
-
-      localStorage.setItem("blogList", JSON.stringify(blogList));
-      location.reload();
-      showData();
-
-      document.querySelector('[placeholder="Article Title"]').value = "";
-      document.querySelector('[placeholder="Author"]').value = "";
-      document.querySelector('[placeholder="Textarea"]').value = "";
-      document.querySelector("#date2").value = "";
-      document.querySelector("#image2").value = "";
-      alert("Data Updated Successfully");
-    });
   };
+  
 
-  buttonEl.addEventListener("click", addArticle);
+  async function publishArt(title,publishedDate) {
+    try {
+  
+      const response = await fetch(
+        "https://my-brand-martine-backendapis.onrender.com/blogs/publish",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: localStorage.getItem("tokenAdmin")
+          },
+          body: JSON.stringify({
+            title : title,
+            publishedDate : publishedDate,
+          }),
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error("Failed to publish article");
+      }
+  
+      const responseData = await response.json();
+      console.log(responseData);
+      
+      showData();
+      
+    } catch (error) {
+      console.error("Error publishing article:", error.message);
+    }
+  };
+  
 
-  cancelBtn.addEventListener("click", function () {
-    modal8.close();
+  const logoutFunction = () => {
+    localStorage.removeItem("tokenAdmin");
+    window.location.href = "../index.html";
+    
+  };
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("logout-btn")) {
+      logoutFunction();
+    }
   });
 
-  const publishArt = function (index) {
-    let blogList;
-    let publishList;
-    blogList = JSON.parse(localStorage.getItem("blogList")) ?? [];
-    publishList = JSON.parse(localStorage.getItem("publishList")) ?? [];
-
-    publishList.push(blogList[index]);
-
-    localStorage.setItem("publishList", JSON.stringify(publishList));
-  };
-});
+  });

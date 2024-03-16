@@ -1,5 +1,22 @@
 
 document.addEventListener("DOMContentLoaded", function () {
+  const btnLogout = document.querySelector(".logout-btn");
+  const btnLogin = document.querySelector(".login-btn");
+
+  let loggedId = localStorage.getItem("token");
+  let loggedAdmin = localStorage.getItem("tokenAdmin");
+  
+  if (loggedId !== null) {
+    btnLogin.style.display = "none";
+    btnLogout.style.display = "flex";
+  } else if (loggedAdmin !== null) {
+    btnLogin.style.display = "none";
+    btnLogout.style.display = "flex";
+    window.location.href = "./admin.html";
+  } else {
+    btnLogin.style.display = "flex";
+    btnLogout.style.display = "none";
+  }
 
   const emailEl = document.querySelector("#email");
   const passwordEl = document.querySelector("#password");
@@ -107,14 +124,12 @@ document.addEventListener("DOMContentLoaded", function () {
       element.classList.add("hide");
     }, 2000);
   };
-
+  
   const checkUser = async function () {
     const password = passwordEl.value.trim().toLowerCase();
     const email = emailEl.value.trim().toLowerCase();
 
     try {
-      document.cookie = "jwt=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-
       const response = await fetch(
         "https://my-brand-martine-backendapis.onrender.com/auth/login",
         {
@@ -124,51 +139,47 @@ document.addEventListener("DOMContentLoaded", function () {
           },
           body: JSON.stringify({
             email,
-            password,
+            password
           }),
         }
       );
 
-      const responseData = await response.json();
 
       if (!response.ok) {
-        throw new Error(responseData.message || "Failed to login");
+        throw new Error(response.message || "Failed to login");
       }
 
-      const { user, token } = responseData;
+      const responseData = await response.json();
+      console.log(responseData);
+    
 
-      if (user) {
-        document.cookie = `jwt=${token}; max-age=${24 * 60 * 60}; path=/`;
-
-         console.log(user.userRole);
-         
-        if (user.userRole === "admin") {
-          window.location.href = "./admin.html";
+        if (responseData.user.userRole === "admin") {
+          console.log("admin");
+          localStorage.setItem("tokenAdmin",responseData.token);
+           window.location.href = "./admin.html";
         } else {
-          window.location.href = "./readmore.html";
+          console.log("user");
+          localStorage.setItem("token",responseData.token);
+         window.location.href = "./readmore.html";
         }
-      } else {
-        displayFailMessage(
-          document.querySelector(".msgLogin"),
-          "Invalid email or password"
-        );
-      }
-    } catch (error) {
+      
+     } catch (error) {
       console.error("Error logging in:", error.message);
       displayFailMessage(
         document.querySelector(".msgLogin"),
         "Failed to login. Please try again later."
       );
-    } 
+     } 
   };
+
   const logoutFunction = () => {
-    window.localStorage.removeItem("loggedUser");
-    window.localStorage.removeItem("loggedAdmin");
     window.location.href = "../index.html";
+    localStorage.removeItem("tokenAdmin");
   };
   document.addEventListener("click", function (e) {
     if (e.target.classList.contains("logout-btn")) {
       logoutFunction();
     }
   });
+
 });

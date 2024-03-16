@@ -28,17 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cancel6 = document.querySelector("#cancel6");
   const actionBtn = document.querySelectorAll(".action-btn");
   const replyBtn = document.querySelectorAll("#reply-btn");
-
-  // document.addEventListener("click", function (e) {
-  //   if (e.target.classList.contains("btn-cancel")) {
-  //     modal5.showModal();
-  //     modal10.close();
-  //   }
-  //   if (e.target.classList.contains("btn-delete")) {
-  //     console.log("clicked");
-  //     modal10.close();
-  //   }
-  // });
+  
   document.addEventListener("click", (e) => {
     if (e.target.classList.contains("action-btn")) {
       modal10.showModal();

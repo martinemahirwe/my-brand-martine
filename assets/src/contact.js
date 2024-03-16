@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnLogout = document.querySelector(".logout-btn");
   const btnLogin = document.querySelector(".login-btn");
 
-  let loggedId = JSON.parse(localStorage.getItem("loggedUser"));
-  let loggedAd = JSON.parse(localStorage.getItem("loggedAdmin"));
+  let loggedId = localStorage.getItem("token");
+  let loggedAd = localStorage.getItem("tokenAdmin");
 
   if (loggedId !== null) {
     btnLogin.style.display = "none";
@@ -126,6 +126,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2000);
   };
 
+  const displayFailMessage = (element, message) => {
+    const header6 = document.createElement("h4");
+    element.classList.remove("hide");
+    header6.style.color = "white";
+    element.style.background = "#770a0afc";
+    element.appendChild(header6).innerText = `${message}`;
+    setTimeout(() => {
+      element.classList.add("hide");
+    }, 2000);
+  };
+
   const toggleWink = function () {
     emojis.classList.add("hidden");
     messageEl.addEventListener("keydown", (e) => {
@@ -142,8 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
   toggleWink();
-
-  let id;
 
   const addMessage = async function () {
     const name = usernameEl.value;
@@ -165,11 +174,13 @@ document.addEventListener("DOMContentLoaded", () => {
           }),
         }
       );
-
+       const responseData = response.json();
       if (!response.ok) {
         throw new Error("Failed to add message");
       }
-
+      if(responseData){
+       console.log(responseData);
+      
       displaySuccessMsg(
         document.querySelector(".msgContact"),
         "Your message was delivered successfully!"
@@ -179,7 +190,8 @@ document.addEventListener("DOMContentLoaded", () => {
         location.reload();
         message = "";
       }, 2000);
-    } catch (error) {
+    }
+  } catch (error) {
       console.error("Error adding message:", error.message);
       displayFailMessage(
         document.querySelector(".msgContact"),
@@ -187,9 +199,10 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
   };
+
   const logoutFunction = () => {
-    window.localStorage.removeItem("loggedUser");
-    window.localStorage.removeItem("loggedAdmin");
+    localStorage.removeItem("token");
+    localStorage.removeItem("tokenAdmin");
     window.location.href = "../index.html";
   };
   document.addEventListener("click", function (e) {

@@ -1,22 +1,37 @@
-let loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
-// if (loggedAdmin === null) {
-//   window.location.href = "./login.html";
-// }
+
+if (loggedAdmin === null) {
+  window.location.href = "./login.html";
+}
 
 document.addEventListener("DOMContentLoaded", () => {
+
   const messagesContainer = document.querySelector("#conversation");
   const replyContainer = document.querySelector("#modal5");
 
-  const showData = function () {
-    let messageList;
-    if (localStorage.getItem("messageList") === null) {
-      messageList = [];
-    } else {
-      messageList = JSON.parse(localStorage.getItem("messageList"));
-    }
-    let html = "";
-    messageList.forEach((message, index) => {
-      html += `
+
+  const getMessages = async function () {
+    try {
+      const response = await fetch(
+        "https://my-brand-martine-backendapis.onrender.com/messages",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: localStorage.getItem("tokenAdmin")
+          }
+        }
+      );
+      let messageList = await response.json();
+     
+  
+      if (!response.ok) {
+        throw new Error("Failed to load messages");
+      }
+      if(messageList){
+    
+    let messagehtml = "";
+    for(i=0;i<messageList.data.length;i++){
+      messagehtml += `
        <div id="conversation">
       <div class="article-data">
       <div class="person11"><div class="person">
@@ -24,48 +39,64 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
       <div class="person">
       <div class="name">
-      <strong>${message.m_name}</strong>
-      <big>${new Date().getDay()} hours ago</big>
+      <strong>${messageList.data[i].email}</strong>
+      <big>${new Date().getHours()} hours ago</big>
       </div>
-      <div class="message"><p>${message.m_message}</p>
+      <div class="message"><p>${messageList.data[i].message}</p>
       <div><span class="green ">reply</span>
       <span class="red">mark as read</span>
-      <span class="delete delete-btn">Delete</span></div></div>
+      <span class="delete delete-btn"  data-key="${messageList.data[i]._id}">Delete</span></div></div>
          </div>
        </div>
       </div>
     </div>`;
-    });
+    };
 
     document.addEventListener("click", (e) => {
       if (e.target.classList.contains("delete-btn")) {
-        deleteArticle(this.m_id);
+        const dataKey = e.target.dataset.key;
+        deleteArticle(dataKey);
       }
       if (e.target.classList.contains("green")) {
         replyContainer.showModal();
       }
     });
     const container = document.createElement("div");
-    container.innerHTML = html;
+    container.innerHTML = messagehtml;
     messagesContainer.appendChild(container);
+  }}
+    catch (error) {
+      console.error("Error fetching messages:", error.message);
+  };
   };
 
-  showData();
+  getMessages();
 
-  const deleteArticle = function (index) {
-    let messageList;
+  async function deleteArticle (id) {
 
-    if (localStorage.getItem("messageList") === null) {
-      messageList = [];
-    } else {
-      messageList = JSON.parse(localStorage.getItem("messageList"));
+    const response = await fetch(
+      `https://my-brand-martine-backendapis.onrender.com/messages/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: localStorage.getItem("tokenAdmin")
+        },
+        body: JSON.stringify({
+ 
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to add article");
     }
 
-    messageList.splice(index, 1);
+    const responseData = await response.json();
+    console.log(responseData);
 
-    localStorage.setItem("messageList", JSON.stringify(messageList));
     location.reload();
-    showData();
+    
   };
 
   const mark = document.querySelector(".read");
@@ -74,13 +105,3 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-const logoutFunction = (e) => {
-  window.localStorage.removeItem("loggedAdmin");
-
-  window.location.href = "../index.html";
-};
-document.addEventListener("click", function (e) {
-  if (e.target.classList.contains("logout-btn")) {
-    logoutFunction();
-  }
-});
