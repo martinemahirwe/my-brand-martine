@@ -90,9 +90,9 @@ document.addEventListener("DOMContentLoaded", function () {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-
-            Authorization: `Bearer ${token}`,
+            
           },
+          credentials:"include",
           body: JSON.stringify({
             title,
             author,
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function getAuthToken() {
     const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
     const tokenCookie = cookies.find((cookie) =>
-      cookie.startsWith("authToken=")
+      cookie.startsWith("jwt=")
     );
     if (tokenCookie) {
       return tokenCookie.split("=")[1];

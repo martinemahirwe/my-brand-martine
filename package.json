@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "jwt-decode": "^4.0.0"
+  }
+}

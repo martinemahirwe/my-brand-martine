@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       setTimeout(() => {
         location.reload();
-        window.location.href = "./login.html";
+        message = "";
       }, 2000);
     } catch (error) {
       console.error("Error adding message:", error.message);
@@ -187,7 +187,6 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
   };
-
   const logoutFunction = () => {
     window.localStorage.removeItem("loggedUser");
     window.localStorage.removeItem("loggedAdmin");

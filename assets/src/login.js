@@ -1,13 +1,6 @@
-document.addEventListener("DOMContentLoaded", function () {
-  let loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-  let loggedAdmin = JSON.parse(localStorage.getItem("loggedAdmin"));
 
-  if (loggedUser !== null) {
-    window.location.href = "../index.html";
-  }
-  if (loggedAdmin !== null) {
-    window.location.href = "./admin.html";
-  }
+document.addEventListener("DOMContentLoaded", function () {
+
   const emailEl = document.querySelector("#email");
   const passwordEl = document.querySelector("#password");
   const form = document.querySelector("#signup");
@@ -120,10 +113,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const email = emailEl.value.trim().toLowerCase();
 
     try {
-      // Clear existing cookie
-      document.cookie = "authToken=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      document.cookie = "jwt=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
 
-      // Make a POST request to your backend API
       const response = await fetch(
         "https://my-brand-martine-backendapis.onrender.com/auth/login",
         {
@@ -147,10 +138,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const { user, token } = responseData;
 
       if (user) {
-        // Store the token in a cookie
-        document.cookie = `authToken=${token}; max-age=${24 * 60 * 60}; path=/`;
+        document.cookie = `jwt=${token}; max-age=${24 * 60 * 60}; path=/`;
 
-        if (user.email === "mahirwe@gmail.com") {
+         console.log(user.userRole);
+
+        if (user.userRole === "user") {
           window.location.href = "./admin.html";
         } else {
           window.location.href = "./readmore.html";
@@ -167,16 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(".msgLogin"),
         "Failed to login. Please try again later."
       );
-    }
-  };
-
-  const setLogged = (userId) => {
-    let userIdText = JSON.stringify(userId);
-    window.localStorage.setItem("loggedUser", userIdText);
-  };
-  const setAdmin = (userId) => {
-    let userIdText = JSON.stringify(userId);
-    window.localStorage.setItem("loggedAdmin", userIdText);
+    } 
   };
   const logoutFunction = () => {
     window.localStorage.removeItem("loggedUser");

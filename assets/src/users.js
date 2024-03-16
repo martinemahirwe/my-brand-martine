@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   userArray = JSON.parse(localStorage.getItem("userArray"));
 
-  element6.innerHTML = userArray.length;
+  //element6.innerHTML = userArray.length;
 
   const modal9 = document.querySelector("#modal9");
   const modal6 = document.querySelector("#modal6");
