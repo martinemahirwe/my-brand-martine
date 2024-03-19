@@ -154,11 +154,9 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
         if (responseData.user.userRole === "admin") {
-          console.log("admin");
           localStorage.setItem("tokenAdmin",responseData.token);
            window.location.href = "./admin.html";
         } else {
-          console.log("user");
           localStorage.setItem("token",responseData.token);
          window.location.href = "./readmore.html";
         }

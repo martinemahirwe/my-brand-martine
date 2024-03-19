@@ -86,7 +86,7 @@ document.addEventListener("click",(e)=>{
   
 
   const logoutFunction = (e) => {
-    localStorage.removeItem("loggedAdmin");
+    localStorage.removeItem("tokenAdmin");
     window.location.href = "../index.html";
   };
   document.addEventListener("click", function (e) {

@@ -23,42 +23,45 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch("https://my-brand-martine-backendapis.onrender.com/blogs/published", {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
-          authorization: localStorage.getItem("tokenAdmin")
+          "Content-Type": "application/json"
         }
       });
       if (!response.ok) {
         throw new Error("Failed to fetch published blogs");
       }
-      
+    
       const publishList = await response.json();
-      
+    
       let blogHtml = "";
       publishList.forEach((blog) => {
         blogHtml += `
-            <h3>${blog.title}</h3>
-            <div class="content">
-              <img src="${blog.image}" alt="Blog Image" />
-            </div>
-            <p>${blog.shortDescript}</p>
-            <strong data-blog='${blog._id}' class="readmore">Read more...</strong>
+        <div class="blog-Container slider">
+        <div class="slide">
+          <div class="content">
+            <h3>${blog.title}</</h3>
+            <img
+              src="${blog.imageLink}"
+              alt="Description of the image"
+            />
+          </div>
+          <p>${blog.shortDescript}</p>
+          <div class="live">
+          <strong data-id='${blog._id}' class="readmore">Read more...</strong>
+          </div>
+        </div>
+        <div>
         `;
       });
   
       document.addEventListener("click", (e) => {
         if (e.target.classList.contains("readmore")) {
-          const blogId = e.target.dataset.blog;
-          const blogDetails = publishList.find(
-            (blog) => blog._id === blogId
-          );
-          sessionStorage.setItem("blogDetails", JSON.stringify(blogDetails));
-          window.location.href = "./readmore.html";
+          const blogId = e.target.dataset.id;
+          window.location.href =`../../pages/readmore.html?id=${blogId}`;
         }
       });
   
       const container = document.createElement("div");
       container.innerHTML = blogHtml;
-      container.classList.add("blog-container");
       blogMain.appendChild(container);
     } catch (error) {
       console.error("Error fetching published blogs:", error.message);
@@ -67,10 +70,10 @@ document.addEventListener("DOMContentLoaded", function () {
   
   showBlogData();
   
-
+  
   const logoutFunction = () => {
-    localStorage.removeItem("loggedUser");
-    localStorage.removeItem("loggedAdmin");
+    localStorage.removeItem("token");
+    localStorage.removeItem("tokenAdmin");
     window.location.href = "../index.html";
   };
   document.addEventListener("click", function (e) {

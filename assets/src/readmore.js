@@ -16,41 +16,35 @@ document.addEventListener("DOMContentLoaded", function () {
     btnLogout.style.display = "none";
   }
 
-  // Fetch published blogs
-  fetch(`https://my-brand-martine-backendapis.onrender.com/blogs/published/${id}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": loggedAdmin || loggedId
-    }
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("Failed to fetch published blogs");
-    }
-    return response.json();
-  })
-  .then(data => {
-    const readmoreButtons = document.querySelectorAll(".readmore");
-    readmoreButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        const blogId = button.dataset.blog;
-        const blog = data.find(blog => blog._id === blogId);
-        if (blog) {
-          showBlogDetails(blog);
-        } else {
-          console.error("Blog not found");
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const clickedBlogId = urlParams.get('id');
+ 
+  async function fetchPublishedBlogs() {
+    try {
+      const response = await fetch(`https://my-brand-martine-backendapis.onrender.com/blogs/published/${clickedBlogId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
         }
       });
-    });
-  })
-  .catch(error => {
-    console.error("Error fetching published blogs:", error.message);
-  });
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch published blogs");
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching published blogs:", error.message);
+      throw error;
+    }
+  }
 
-  const showBlogDetails = function (blog) {
-    const singleBlog = document.querySelector("#singleBlog");
 
+  const showBlogDetails = async function () {
+    const singleBlog = document.getElementById("singleBlog");
+   const blog = await fetchPublishedBlogs();
     let blogHtml = "";
     if (blog) {
       blogHtml += `
@@ -68,20 +62,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const container = document.createElement("div");
     container.innerHTML = blogHtml;
     container.classList.add("read-container");
+    console.log(container,singleBlog);
     singleBlog.prepend(container);
 
-    if (blog) {
-      displayComments(blog._id);
-    }
+    // if (blog) {
+    //   displayComments(blog._id);
+    // }
   };
+showBlogDetails();
+    
 
-  function displayComments(cid) {
-    // Fetch comments for the given blog post
-    fetch(`https://my-brand-martine-backendapis.onrender.com/blogs/${cid}/comments`, {
+  function displayComments(id) {
+    fetch(`https://my-brand-martine-backendapis.onrender.com/comments/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": loggedAdmin || loggedId
+        authorization: localStorage.getItem("token")
       }
     })
     .then(response => {
@@ -91,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return response.json();
     })
     .then(commentData => {
-      const latestCommentsContainer = document.querySelector(`#latest-comments-${cid}`);
+      const latestCommentsContainer = document.querySelector(`#latest-comments-${id}`);
       if (!latestCommentsContainer) return;
       
       document.querySelector("#comment-count").innerHTML = `${commentData.length} Comments`;
@@ -131,76 +127,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // function displayLikes(id) {
-  //   let likeData = JSON.parse(localStorage.getItem("likes")) || [];
-  //   document.querySelector("#totalLikes").innerHTML = likeData.length;
-  // }
+  // document.addEventListener("click", function (event) {
+  //   if (event.target.classList.contains("send-message")) {
+  //     const comId = document.querySelector(".latest-comments").dataset.num;
+  //     const commentInput = document.getElementById("message");
+  //     const commentMessage = commentInput.value.trim();
 
-  // function addLikes(id) {
-  //   let liked = false;
-  //   if (liked) {
-  //     const currentId = JSON.parse(localStorage.getItem("loggedUser"));
-
-  //     if (currentId === null) {
-  //       alert("You need to be logged in to add a comment.");
-  //       return;
+  //     if (commentMessage !== "") {
+  //       addComment(comId, commentMessage);
+  //       commentInput.value = "";
   //     }
-
-  //     likesContainer.innerHTML += 1;
-
-  //     const users = JSON.parse(localStorage.getItem("userArray"));
-  //     const currentUser = users.find(
-  //       (user) => user.u_id === parseInt(currentId)
-  //     );
-
-  //     let likes,
-  //       l_id = null;
-  //     if (localStorage.getItem("likes") === null) {
-  //       l_id = 1;
-  //       likes = [];
-  //     } else {
-  //       likes = JSON.parse(localStorage.getItem("likes"));
-  //       l_id = likes.length + 1;
-  //     }
-
-  //     const newLike = {
-  //       l_id,
-  //       c_id: id,
-  //       u_id: currentUser.u_id,
-  //     };
-  //     likes.push(newLike);
-  //     localStorage.setItem("likes", JSON.stringify(likes));
-  //     displayLikes(id);
-
-  //     liked = true;
-  //     return liked;
-  //   }
-  //   likee -= 1;
-  // }
-
-  // document.addEventListener("click", (e) => {
-  //   if (e.target.classList.contains("like-btn")) {
-  //     const id = document.querySelector(".likes-count").dataset.like;
-  //     addLikes(id);
   //   }
   // });
 
-  document.addEventListener("click", function (event) {
-    if (event.target.classList.contains("send-message")) {
-      const comId = document.querySelector(".latest-comments").dataset.num;
-      const commentInput = document.getElementById("message");
-      const commentMessage = commentInput.value.trim();
-
-      if (commentMessage !== "") {
-        addComment(comId, commentMessage);
-        commentInput.value = "";
-      }
-    }
-  });
-
   const logoutFunction = () => {
-    window.localStorage.removeItem("loggedUser");
-    window.localStorage.removeItem("loggedAdmin");
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("tokenAdmin");
     window.location.href = "../index.html";
   };
 

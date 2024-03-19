@@ -60,8 +60,8 @@ async function addArticle() {
     const responseData = await response.json();
     console.log(responseData);
 
-     popup.innerText = "Data Added Successfully!";
-     modal15.showModal();
+    //  popup.innerText = "Data Added Successfully!";
+    //  modal15.showModal();
     setTimeout(() => {
       location.reload();
     }, 2000);
@@ -99,7 +99,7 @@ async function addArticle() {
       <div class="blog">
         <h4>${blogList[i].title}</h4>
         <div class="image-div">
-         <img src="${blogList[i].image}"alt="Blog Image">
+         <img src="${blogList[i].imageLink}"alt="Blog Image">
         </div>
         <p data-key="${blogList[i].publishedDate}"><strong>Written Date:</strong> ${blogList[i].publishedDate}</p>
         <p><strong>Author:</strong> ${blogList[i].author}</p>
@@ -118,7 +118,6 @@ async function addArticle() {
     document.addEventListener("click", (e) => {
       if (e.target.classList.contains("delete-blog")) {
         dataIndex = e.target.dataset.key;
-        console.log(dataIndex)
         modal8.showModal();
       }
       if (e.target.classList.contains("edit-blog")) {
@@ -151,8 +150,6 @@ async function addArticle() {
   }
   };
 showData();
-  
-// const btnLogout = document.querySelector(".logout-btn");
 
 cancelBtn.addEventListener("click", function () {
   modal8.close();
@@ -203,12 +200,12 @@ cancelBtn.addEventListener("click", function () {
       button2.addEventListener("click", async function () {
         const updatedArticle = {
           title: document.querySelector('[placeholder="Title"]').value,
+          author: document.querySelector('[placeholder="Author"]').value,
           shortDescript: document.querySelector('[placeholder="description"]').value,
           description: document.querySelector('[placeholder="description"]').value,
           imageLink: document.querySelector("#image2").value,
-          publishedDate: document.querySelector("#date2").value
         };
-        
+    
         const patchResponse = await fetch(`https://my-brand-martine-backendapis.onrender.com/blogs/${id}`, {
           method: "PATCH",
           headers: {
@@ -221,15 +218,8 @@ cancelBtn.addEventListener("click", function () {
         if (!patchResponse.ok) {
           throw new Error("Failed to update article");
         }
-  
-        location.reload();
+      location.reload();
         showData();
-
-        document.querySelector('[placeholder="Article Title"]').value = "";
-        document.querySelector('[placeholder="Author"]').value = "";
-        document.querySelector('[placeholder="Textarea"]').value = "";
-        document.querySelector("#date2").value = "";
-        document.querySelector("#image2").value = "";
       });
     } catch (error) {
       console.error("Error updating article:", error.message);
