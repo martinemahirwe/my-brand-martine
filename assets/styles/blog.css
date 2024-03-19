@@ -3,7 +3,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
 }
 
 .content img {
@@ -82,8 +82,12 @@ strong:hover {
     margin-top: 300px;
     gap: 20px;
   }
+  main {
+    height: auto;
+  }
+
   .content img {
-    width: 90%;
+    width: 70%;
     height: 60vh;
   }
   .blog-container {
