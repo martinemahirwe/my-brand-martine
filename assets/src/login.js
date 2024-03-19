@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (loggedId !== null) {
     btnLogin.style.display = "none";
     btnLogout.style.display = "flex";
+    window.location.href = "./blog.html";
   } else if (loggedAdmin !== null) {
     btnLogin.style.display = "none";
     btnLogout.style.display = "flex";
@@ -122,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
     element.appendChild(header6).innerText = `${message}`;
     setTimeout(() => {
       element.classList.add("hide");
-    }, 2000);
+    }, 3000);
   };
   
   const checkUser = async function () {
@@ -158,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
            window.location.href = "./admin.html";
         } else {
           localStorage.setItem("token",responseData.token);
-         window.location.href = "./readmore.html";
+         window.location.href = "./blog.html";
         }
       
      } catch (error) {

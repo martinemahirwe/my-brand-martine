@@ -1,8 +1,8 @@
-let loggedUser = localStorage.getItem("tokenAdmin");
-let loggedAdmin = localStorage.getItem("token");
+let loggedUser = localStorage.getItem("token");
+let loggedAdmin = localStorage.getItem("tokenAdmin");
 
 if (loggedUser !== null) {
-  window.location.href = "./login.html";
+  window.location.href = "../index.html";
 }
 if (loggedAdmin !== null) {
   window.location.href = "./admin.html";

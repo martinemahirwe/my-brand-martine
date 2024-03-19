@@ -35,20 +35,16 @@ document.addEventListener("DOMContentLoaded", function () {
       let blogHtml = "";
       publishList.forEach((blog) => {
         blogHtml += `
-        <div class="blog-Container slider">
-        <div class="slide">
+        <div class="blog-Container">
+        <h3>${blog.title}</</h3>
           <div class="content">
-            <h3>${blog.title}</</h3>
             <img
               src="${blog.imageLink}"
               alt="Description of the image"
             />
           </div>
           <p>${blog.shortDescript}</p>
-          <div class="live">
           <strong data-id='${blog._id}' class="readmore">Read more...</strong>
-          </div>
-        </div>
         <div>
         `;
       });
